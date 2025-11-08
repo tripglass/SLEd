@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorebook Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>📚 Lorebook Manager</h1>
+            <div class="header-actions">
+                <button id="importBtn" class="btn btn-primary">Import Lorebook</button>
+                <button id="exportBtn" class="btn btn-secondary">Export Lorebook</button>
+                <button id="newEntryBtn" class="btn btn-success">+ New Entry</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Entries</h2>
+                    <input type="text" id="searchEntries" placeholder="Search entries..." class="search-input">
+                </div>
+                <div class="entry-count">
+                    <span id="entryCount">0 entries</span>
+                </div>
+                <ul id="entryList" class="entry-list">
+                    <!-- Entries will be populated here -->
+                </ul>
+            </aside>
+
+            <!-- Editor Area -->
+            <main class="editor-area">
+                <div class="tabs-container">
+                    <div id="tabBar" class="tab-bar">
+                        <!-- Tabs will appear here -->
+                    </div>
+                </div>
+                <div id="editorContent" class="editor-content">
+                    <div class="empty-state">
+                        <p>👈 Select an entry from the sidebar to start editing</p>
+                        <p>or</p>
+                        <button id="newEntryBtnAlt" class="btn btn-success">+ Create New Entry</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+    <script src="script.js"></script>
+</body>
+</html>
