@@ -3,16 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lorebook Manager</title>
+    <title>Simple Lorebook Editor - SLEd</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            <h1>📚 Lorebook Manager</h1>
+            <div class="header-left">
+                <h1>📚 Simple Lorebook Editor <span class="app-nickname">(SLEd)</span></h1>
+                <div class="lorebook-name-container">
+                    <label for="lorebookName" class="lorebook-name-label">Lorebook Name:</label>
+                    <input type="text" id="lorebookName" class="lorebook-name-input" placeholder="my-lorebook" value="">
+                </div>
+            </div>
             <div class="header-actions">
+                <button id="themeToggle" class="btn btn-secondary" title="Toggle Dark Mode">🌙 Dark</button>
+                <button id="fontToggle" class="btn btn-secondary" title="Toggle Dyslexia-Friendly Font">Aa</button>
+                <button id="helpBtn" class="btn btn-secondary" title="View Help & Documentation">? Help</button>
                 <button id="importBtn" class="btn btn-primary">Import Lorebook</button>
+                <button id="importMergeBtn" class="btn btn-primary" title="Import another lorebook to merge entries">Import for Merging</button>
                 <button id="exportBtn" class="btn btn-secondary">Export Lorebook</button>
                 <button id="newEntryBtn" class="btn btn-success">+ New Entry</button>
             </div>
@@ -23,9 +40,14 @@
             <!-- Sidebar -->
             <aside class="sidebar">
                 <div class="sidebar-header">
-                    <h2>Entries</h2>
-                    <input type="text" id="searchEntries" placeholder="Search entries..." class="search-input">
-                </div>
+    <h2>Entries</h2>
+    <input type="text" id="searchEntries" placeholder="Search entries..." class="search-input">
+    <div class="zoom-controls">
+        <button id="zoomOut" class="zoom-btn" title="Zoom Out">-</button>
+        <span id="zoomLevel" class="zoom-level">Normal</span>
+        <button id="zoomIn" class="zoom-btn" title="Zoom In">+</button>
+    </div>
+</div>
                 <div class="entry-count">
                     <span id="entryCount">0 entries</span>
                 </div>
@@ -42,7 +64,7 @@
                     </div>
                     <div class="view-controls">
                         <button id="viewToggle" class="btn-icon" title="Toggle side-by-side view">
-                            <span id="viewIcon">⊞</span>
+                            <span id="viewIcon">▥</span>
                         </button>
                         <button id="clearSelection" class="btn-icon" title="Clear selection" style="display: none;">
                             <span>☑️ Clear</span>
@@ -62,6 +84,54 @@
 
     <!-- Hidden file input for import -->
     <input type="file" id="fileInput" accept=".json" style="display: none;">
+    
+    <!-- Hidden file input for merge import -->
+    <input type="file" id="fileMergeInput" accept=".json" style="display: none;">
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 Simple Lorebook Editor (SLEd) - Help</h2>
+                <button id="closeHelp" class="modal-close">&times;</button>
+            </div>
+            <div id="helpContent" class="modal-body">
+                <!-- Help content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Merge Modal -->
+    <div id="mergeModal" class="modal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>🔀 Merge Entries from Another Lorebook</h2>
+                <button id="closeMerge" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="merge-info">
+                    <p><strong>Current Lorebook:</strong> <span id="currentLorebookName"></span></p>
+                    <p><strong>Merging From:</strong> <span id="mergeLorebookName"></span></p>
+                    <p class="merge-instructions">Select the entries you want to bring into your current lorebook. UIDs will be automatically renumbered to avoid conflicts.</p>
+                </div>
+                
+                <div class="merge-actions-top">
+                    <button id="selectAllMerge" class="btn btn-secondary btn-small">Select All</button>
+                    <button id="deselectAllMerge" class="btn btn-secondary btn-small">Deselect All</button>
+                    <span class="merge-count">0 entries selected</span>
+                </div>
+                
+                <div id="mergeEntryList" class="merge-entry-list">
+                    <!-- Merge entries will be populated here -->
+                </div>
+                
+                <div class="merge-actions-bottom">
+                    <button id="cancelMerge" class="btn btn-secondary">Cancel</button>
+                    <button id="confirmMerge" class="btn btn-success">Merge Selected Entries</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
