@@ -288,3 +288,13 @@ Works in all modern browsers (Chrome, Firefox, Safari, Edge)
 ---
 
 Built with vanilla HTML/CSS/JavaScript - no dependencies needed! 🎉
+
+## A Word from the "Author": Broeckchen!
+
+Hey! Thank you for checking out and possibly downloading SLEd!
+
+If you had a look at any of the script files and promptly started dryheaving because you know literally anything about about coding, I apologize. This was all vibecoded with Claude Sonnet 4.5 and GLM 4.6. I also don't take any credit for any of the coding and if anyone ever sells you this thing for actual money, they're being an asshole. Sorry!
+
+Please feel free to iterate on this, remake it entirely but better, fork it, whatever you want! I'd like it if you kept a variation of the logo, because I hand drew it. uvu It's like the one thing I actually made myself hahaha.
+
+You can use SLEd at http://sled-7vz.pages.dev or download it as a PWA for mobile devices at https://install.page/sled337 !
