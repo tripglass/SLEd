@@ -278,8 +278,8 @@ function initializeEventListeners() {
     const expandContentBtn = document.getElementById('expandContentBtn');
     if (expandContentBtn) expandContentBtn.addEventListener('click', toggleExpandContent);
     
-    const clearSelection = document.getElementById('clearSelection');
-    if (clearSelection) clearSelection.addEventListener('click', clearSelection);
+    const clearSelectionBtn = document.getElementById('clearSelection');
+    if (clearSelectionBtn) clearSelectionBtn.addEventListener('click', clearSelection);
     
     const lorebookName = document.getElementById('lorebookName');
     if (lorebookName) lorebookName.addEventListener('input', handleLorebookNameChange);

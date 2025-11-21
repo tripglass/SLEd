@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sled-mobile-v2';
+const CACHE_NAME = 'sled-mobile-v3';
 const urlsToCache = [
   './index.html',
   './styles.css',
