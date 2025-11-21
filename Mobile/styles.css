@@ -111,8 +111,6 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Account for fixed header */
-    padding-top: 44px;
 }
 
 /* Header */
@@ -1866,30 +1864,43 @@ body.dark-mode .btn-icon:hover {
 /* ===== MOBILE-ONLY STYLES ===== */
 /* Mobile elements are now the default */
 
-/* Fixed Controls Container */
+/* Fixed Controls Container - Second fixed frame */
 .mobile-controls-container {
     position: fixed;
     top: 44px; /* Below header */
     left: 0;
     right: 0;
     z-index: 300;
-    height: 52px; /* Reduced height for control bars */
+    height: 52px;
+    background: var(--bg-primary);
+    pointer-events: none; /* Allow clicks through to content below */
+}
+
+.mobile-controls-container > * {
+    pointer-events: auto; /* Re-enable clicks on actual controls */
 }
 
 .mobile-swipe-container {
-    display: flex;
-    height: calc(100vh - 96px); /* Account for header (44px) + controls (52px) */
+    position: fixed;
+    top: 96px; /* Below header (44px) + controls (52px) */
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
-    position: relative;
-    margin-top: 52px; /* Space for fixed controls */
+    background: var(--bg-primary);
 }
 
 .mobile-panel {
-    min-width: 100vw;
+    width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    transition: transform 0.3s ease;
+    background: var(--bg-primary);
 }
 
 .mobile-panel-entries {
@@ -2409,18 +2420,26 @@ body.dark-mode .menu-logo-dark {
 
 /* ===== MOBILE SWIPE CONTAINER ===== */
 .mobile-swipe-container {
-    display: flex;
-    height: calc(100vh - 96px); /* Account for header only (no nav indicators) */
+    position: fixed;
+    top: 96px; /* Below header (44px) + controls (52px) */
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
-    position: relative;
+    background: var(--bg-primary);
 }
 
 .mobile-panel {
-    min-width: 100vw;
+    width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    transition: transform 0.3s ease;
+    background: var(--bg-primary);
 }
 
 .mobile-panel-entries {
@@ -2451,10 +2470,6 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--sidebar-bg);
-    /* Allow scrolling of entire sidebar so header can stick */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
     position: relative;
 }
 
@@ -2559,10 +2574,6 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--editor-bg);
-    /* Make the whole editor the scroll container for sticky tabs */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
     position: relative;
 }
 
