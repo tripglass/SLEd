@@ -2445,7 +2445,7 @@ body.dark-mode .menu-logo-dark {
     border-bottom: 1px solid var(--border-color);
     background: var(--card-bg);
     flex-shrink: 0;
-    z-index: 20;
+    z-index: 200; /* Elevated to ensure it stays above scrolling content */
     position: sticky;
     top: 0;
     left: 0;
@@ -2557,7 +2557,7 @@ body.dark-mode .menu-logo-dark {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 20;
+    z-index: 200; /* Keep above editor scroll content */
     flex-shrink: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
