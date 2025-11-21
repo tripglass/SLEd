@@ -75,22 +75,46 @@ function loadFromLocalStorage() {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    loadFromLocalStorage();
-    initializeEventListeners();
-    setupKeyboardHandling();
-    
-    // Initialize control bars visibility
-    const sidebarHeader = document.getElementById('mobileSidebarHeader');
-    const tabsContainer = document.getElementById('mobileTabsContainer');
-    
-    // Show sidebar header by default, hide tabs container
-    if (sidebarHeader) {
-        sidebarHeader.style.opacity = '1';
-        sidebarHeader.style.visibility = 'visible';
-    }
-    if (tabsContainer) {
-        tabsContainer.style.opacity = '0';
-        tabsContainer.style.visibility = 'hidden';
+        // Manual reload button for service worker/app update
+        const reloadAppBtn = document.getElementById('reloadAppBtn');
+        if (reloadAppBtn) {
+            reloadAppBtn.addEventListener('click', () => {
+                window.location.reload(true);
+            });
+        }
+    try {
+        console.time('[SLEd] init');
+        loadFromLocalStorage();
+        initializeEventListeners();
+        setupKeyboardHandling();
+        
+        // Initialize control bars visibility
+        const sidebarHeader = document.getElementById('mobileSidebarHeader');
+        const tabsContainer = document.getElementById('mobileTabsContainer');
+        
+        // Show sidebar header by default, hide tabs container
+        if (sidebarHeader) {
+            sidebarHeader.style.opacity = '1';
+            sidebarHeader.style.visibility = 'visible';
+        }
+        if (tabsContainer) {
+            tabsContainer.style.opacity = '0';
+            tabsContainer.style.visibility = 'hidden';
+        }
+        console.timeEnd('[SLEd] init');
+        console.log('[SLEd] Initialization complete');
+    } catch (err) {
+        console.error('[SLEd] Initialization error:', err);
+        // Retry once after a short delay in case of transient race/shadow issues
+        setTimeout(() => {
+            try {
+                console.warn('[SLEd] Retrying initialization...');
+                initializeEventListeners();
+                console.log('[SLEd] Retry initialization finished');
+            } catch (retryErr) {
+                console.error('[SLEd] Retry failed:', retryErr);
+            }
+        }, 250);
     }
 });
 
@@ -279,7 +303,7 @@ function initializeEventListeners() {
     if (expandContentBtn) expandContentBtn.addEventListener('click', toggleExpandContent);
     
     const clearSelectionBtn = document.getElementById('clearSelection');
-    if (clearSelectionBtn) clearSelectionBtn.addEventListener('click', clearSelection);
+    if (clearSelectionBtn) clearSelectionBtn.addEventListener('click', clearEntrySelection);
     
     const lorebookName = document.getElementById('lorebookName');
     if (lorebookName) lorebookName.addEventListener('input', handleLorebookNameChange);
@@ -1422,7 +1446,7 @@ function toggleEntrySelection(uid) {
     renderEntryList();
 }
 
-function clearSelection() {
+function clearEntrySelection() {
     selectedEntries = [];
     renderEntryList();
 }
@@ -3819,11 +3843,23 @@ function setupMobileDropdowns() {
         mobileImportMenu.addEventListener('click', (e) => {
             e.stopPropagation();
         });
+        // Auto-close on any action
+        mobileImportMenu.querySelectorAll('.mobile-dropdown-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                mobileImportMenu.classList.remove('show');
+            });
+        });
     }
-    
+
     if (mobileExportMenu) {
         mobileExportMenu.addEventListener('click', (e) => {
             e.stopPropagation();
+        });
+        // Auto-close on any action
+        mobileExportMenu.querySelectorAll('.mobile-dropdown-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                mobileExportMenu.classList.remove('show');
+            });
         });
     }
 }
