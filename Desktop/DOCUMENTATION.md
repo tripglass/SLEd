@@ -1,4 +1,4 @@
-# 📚 Lorebook Editor v3.3 - Complete Documentation
+# 📚 Lorebook Editor v3.4 - Complete Documentation
 
 ## 🎯 Overview
 
@@ -421,7 +421,16 @@ Ctrl+Enter       # Replace all
 
 ## 📈 Feature History
 
-### v3.3 Current Version
+### v3.4 Current Version
+
+**Mobile Interface Improvements**
+- Fixed toolbar scrolling issue: Control bars (zoom controls, tab names) now remain fixed below the header
+- Implemented three-frame layout system for mobile: fixed header, fixed control bars, scrollable content
+- Enhanced PWA status bar: Theme color now automatically matches app background (light/dark mode)
+- Improved scroll containment and touch handling for mobile devices
+- Optimized mobile layout dimensions for better screen space utilization
+
+### v3.3 Previous Version
 - ✅ Export as Text functionality with customizable options
 - ✅ Role selector for context position (@D, @1, @2, etc.)
 - ✅ Per-entry overrides (scan depth, priority, probability)
@@ -498,5 +507,5 @@ This Lorebook Editor is provided as-is for personal and commercial use. No warra
 ---
 
 *Last Updated: November 2025
-*Version: 3.3*
+*Version: 3.4*
 *Features: Export as Text, Role Selector, Per-Entry Overrides, Sidebar Zoom, Sticky Headers, Search & Replace, Keyboard Shortcuts, Dark Mode, Accessibility*

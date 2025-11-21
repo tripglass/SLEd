@@ -105,6 +105,10 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
 }
 
 .app-container {
@@ -123,6 +127,14 @@ body {
     align-items: center;
     box-shadow: var(--shadow);
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 500; /* Above fixed toolbars */
+    height: 44px;
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: transform;
 }
 
 .header-left {
@@ -1861,19 +1873,48 @@ body.dark-mode .btn-icon:hover {
 
 /* ===== MOBILE-ONLY STYLES ===== */
 /* Mobile elements are now the default */
+
+/* Fixed Controls Container - Second fixed frame */
+.mobile-controls-container {
+    position: fixed;
+    top: 44px; /* Below header */
+    left: 0;
+    right: 0;
+    z-index: 300;
+    height: 52px;
+    background: var(--bg-primary);
+    pointer-events: none; /* Allow clicks through to content below */
+    transform: translateZ(0); /* Force hardware acceleration */
+    will-change: transform;
+}
+
+.mobile-controls-container > * {
+    pointer-events: auto; /* Re-enable clicks on actual controls */
+}
+
 .mobile-swipe-container {
-    display: flex;
-    height: calc(100vh - 96px); /* Account for header only (no nav indicators) */
+    position: fixed;
+    top: 96px; /* Below header (44px) + controls (52px) */
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
-    position: relative;
+    background: var(--bg-primary);
+    overscroll-behavior: contain;
+    touch-action: pan-y;
 }
 
 .mobile-panel {
-    min-width: 100vw;
+    width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    transition: transform 0.3s ease;
+    background: var(--bg-primary);
 }
 
 .mobile-panel-entries {
@@ -2158,17 +2199,19 @@ body.dark-mode .menu-logo-dark {
 
 /* ===== MOBILE HEADER ===== */
 .app-header {
-    padding: 0.375rem 0.25rem;
+    padding: 0.25rem 0.125rem;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     background: var(--sidebar-bg);
     border-bottom: 1px solid var(--border-color);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
-    gap: 0.25rem;
-    min-height: 48px;
+    left: 0;
+    right: 0;
+    z-index: 400;
+    gap: 0.125rem;
+    min-height: 44px;
     flex-wrap: nowrap;
 }
 
@@ -2211,16 +2254,16 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-menu-toggle {
-    width: 36px;
-    height: 36px;
-    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    padding: 0.125rem;
     flex-shrink: 0;
 }
 
 .mobile-nav-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    padding: 0.125rem;
     flex-shrink: 0;
     background-color: var(--secondary-color);
     color: white;
@@ -2236,16 +2279,16 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-header-right .btn-icon {
-    width: 36px;
-    height: 36px;
-    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    padding: 0.125rem;
     flex-shrink: 0;
 }
 
 #newEntryBtn {
-    width: 36px;
-    height: 36px;
-    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    padding: 0.125rem;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -2391,18 +2434,28 @@ body.dark-mode .menu-logo-dark {
 
 /* ===== MOBILE SWIPE CONTAINER ===== */
 .mobile-swipe-container {
-    display: flex;
-    height: calc(100vh - 96px); /* Account for header only (no nav indicators) */
+    position: fixed;
+    top: 96px; /* Below header (44px) + controls (52px) */
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
-    position: relative;
+    background: var(--bg-primary);
+    overscroll-behavior: contain;
+    touch-action: pan-y;
 }
 
 .mobile-panel {
-    min-width: 100vw;
+    width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
-    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    transition: transform 0.3s ease;
+    background: var(--bg-primary);
 }
 
 .mobile-panel-entries {
@@ -2433,37 +2486,35 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--sidebar-bg);
-    /* Allow scrolling of entire sidebar so header can stick */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
     position: relative;
 }
 
 .mobile-sidebar-header {
-    padding: 0.75rem;
+    padding: 0.5rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--card-bg);
     flex-shrink: 0;
     z-index: 20;
-    position: sticky;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
+    height: 52px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mobile-top-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .mobile-search-toggle {
-    width: 36px;
-    height: 36px;
-    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    padding: 0.125rem;
     background-color: var(--secondary-color);
     color: white;
     border: none;
@@ -2471,7 +2522,7 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-search-container {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .mobile-search-input {
@@ -2492,13 +2543,13 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-zoom-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border: 1px solid var(--border-color);
     background: var(--card-bg);
     color: var(--text-primary);
-    border-radius: 0.375rem;
-    font-size: 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
@@ -2529,8 +2580,10 @@ body.dark-mode .menu-logo-dark {
 .mobile-entry-list {
     list-style: none;
     flex: 1;
-    /* Scroll handled by parent .mobile-sidebar for sticky header */
-    overflow: visible;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem;
 }
 
 /* ===== MOBILE EDITOR ===== */
@@ -2539,28 +2592,29 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--editor-bg);
-    /* Make the whole editor the scroll container for sticky tabs */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
     position: relative;
 }
 
 .mobile-tabs-container {
-    padding: 0.75rem;
+    padding: 0.5rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--sidebar-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     z-index: 20;
     flex-shrink: 0;
+    height: 52px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+/* Compensating top padding for scrollable content areas so content not hidden under fixed bars */
+/* Padding is now applied dynamically via JavaScript to the scrollable containers */
 
 .mobile-tab-bar {
     display: flex;
@@ -2629,9 +2683,9 @@ body.dark-mode .menu-logo-dark {
 }
 
 #saveEntryBtn {
-    width: 36px;
-    height: 36px;
-    padding: 0.25rem;
+    width: 32px;
+    height: 32px;
+    padding: 0.125rem;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -2657,8 +2711,9 @@ body.dark-mode .menu-logo-dark {
 .mobile-editor-content {
     flex: 1;
     padding: 1rem;
-    /* Scrolling now handled by .mobile-editor for sticky tabs */
-    overflow: visible;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     min-height: 0;
 }

@@ -78,6 +78,20 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage();
     initializeEventListeners();
     setupKeyboardHandling();
+    
+    // Initialize control bars visibility
+    const sidebarHeader = document.getElementById('mobileSidebarHeader');
+    const tabsContainer = document.getElementById('mobileTabsContainer');
+    
+    // Show sidebar header by default, hide tabs container
+    if (sidebarHeader) {
+        sidebarHeader.style.opacity = '1';
+        sidebarHeader.style.visibility = 'visible';
+    }
+    if (tabsContainer) {
+        tabsContainer.style.opacity = '0';
+        tabsContainer.style.visibility = 'hidden';
+    }
 });
 
 // Keyboard Handling for Mobile
@@ -3231,6 +3245,9 @@ function toggleTheme() {
         themeBtn.title = 'Toggle Dark Mode';
         localStorage.setItem('theme', 'light');
     }
+    
+    // Update PWA status bar color
+    updateThemeColor();
 }
 
 // Font Toggle
@@ -3307,6 +3324,9 @@ function loadPreferences() {
         themeBtn.innerHTML = '<span class="material-symbols-outlined">light_mode</span> Light';
         themeBtn.title = 'Toggle Light Mode';
     }
+    
+    // Update PWA status bar color to match theme
+    updateThemeColor();
     
     // Apply saved font preference
     if (savedFont === 'true') {
@@ -3820,6 +3840,8 @@ function switchToMobilePanel(panel) {
     const editorPanel = document.getElementById('editorPanel');
     const entriesNavBtn = document.getElementById('entriesNavBtn');
     const editorNavBtn = document.getElementById('editorNavBtn');
+    const sidebarHeader = document.getElementById('mobileSidebarHeader');
+    const tabsContainer = document.getElementById('mobileTabsContainer');
     
     if (!entriesPanel || !editorPanel) return;
     
@@ -3828,6 +3850,16 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.add('show-editor');
         editorPanel.classList.add('show-editor');
         mobileCurrentPanel = 'editor';
+        
+        // Show tabs container, hide sidebar header
+        if (sidebarHeader) {
+            sidebarHeader.style.opacity = '0';
+            sidebarHeader.style.visibility = 'hidden';
+        }
+        if (tabsContainer) {
+            tabsContainer.style.opacity = '1';
+            tabsContainer.style.visibility = 'visible';
+        }
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
@@ -3838,6 +3870,16 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.remove('show-editor');
         editorPanel.classList.remove('show-editor');
         mobileCurrentPanel = 'entries';
+        
+        // Show sidebar header, hide tabs container
+        if (sidebarHeader) {
+            sidebarHeader.style.opacity = '1';
+            sidebarHeader.style.visibility = 'visible';
+        }
+        if (tabsContainer) {
+            tabsContainer.style.opacity = '0';
+            tabsContainer.style.visibility = 'hidden';
+        }
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
