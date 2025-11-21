@@ -2445,9 +2445,9 @@ body.dark-mode .menu-logo-dark {
     border-bottom: 1px solid var(--border-color);
     background: var(--card-bg);
     flex-shrink: 0;
-    z-index: 200; /* Elevated to ensure it stays above scrolling content */
-    position: sticky;
-    top: 0;
+    z-index: 400; /* Above everything except modal overlays */
+    position: fixed; /* Pin to viewport */
+    top: var(--app-header-height, 0px); /* Sit below app header */
     left: 0;
     right: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -2553,13 +2553,22 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
+    position: fixed; /* Pin to viewport */
+    top: var(--app-header-height, 0px); /* Sit below app header */
     left: 0;
     right: 0;
-    z-index: 200; /* Keep above editor scroll content */
+    z-index: 400; /* Above editor scroll content */
     flex-shrink: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Compensating top padding for panels so content not hidden under fixed bars */
+.mobile-editor {
+    padding-top: var(--mobile-tabs-height, 0px);
+}
+
+.mobile-sidebar {
+    padding-top: var(--mobile-sidebar-header-height, 0px);
 }
 
 .mobile-tab-bar {

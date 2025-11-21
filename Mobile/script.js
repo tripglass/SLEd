@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFromLocalStorage();
     initializeEventListeners();
     setupKeyboardHandling();
+    setupPinnedBars();
 });
 
 // Keyboard Handling for Mobile
@@ -3820,6 +3821,8 @@ function switchToMobilePanel(panel) {
     const editorPanel = document.getElementById('editorPanel');
     const entriesNavBtn = document.getElementById('entriesNavBtn');
     const editorNavBtn = document.getElementById('editorNavBtn');
+    const sidebarHeader = document.querySelector('.mobile-sidebar-header');
+    const tabsContainer = document.querySelector('.mobile-tabs-container');
     
     if (!entriesPanel || !editorPanel) return;
     
@@ -3828,6 +3831,8 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.add('show-editor');
         editorPanel.classList.add('show-editor');
         mobileCurrentPanel = 'editor';
+        if (sidebarHeader) sidebarHeader.style.display = 'none';
+        if (tabsContainer) tabsContainer.style.display = 'flex';
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
@@ -3838,6 +3843,8 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.remove('show-editor');
         editorPanel.classList.remove('show-editor');
         mobileCurrentPanel = 'entries';
+        if (sidebarHeader) sidebarHeader.style.display = 'block';
+        if (tabsContainer) tabsContainer.style.display = 'none';
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
@@ -3845,7 +3852,66 @@ function switchToMobilePanel(panel) {
             editorNavBtn.classList.remove('active');
         }
     }
+
+    // Recalculate heights after panel switch
+    setupPinnedBars(true);
 }
+
+// Set up fixed pinned bars and dynamic height compensation
+function setupPinnedBars(forceRecalc = false) {
+    const appHeader = document.querySelector('.app-header');
+    const tabsContainer = document.querySelector('.mobile-tabs-container');
+    const sidebarHeader = document.querySelector('.mobile-sidebar-header');
+    const editor = document.querySelector('.mobile-editor');
+    const sidebar = document.querySelector('.mobile-sidebar');
+
+    if (!forceRecalc && document.documentElement.dataset.pinnedInit === 'true') return;
+
+    const headerHeight = appHeader ? appHeader.offsetHeight : 0;
+    document.documentElement.style.setProperty('--app-header-height', headerHeight + 'px');
+
+    // Determine which bar is currently visible and measure heights
+    let tabsHeight = 0;
+    if (tabsContainer) {
+        if (getComputedStyle(tabsContainer).display !== 'none') {
+            tabsHeight = tabsContainer.offsetHeight;
+        } else {
+            // Temporarily show to measure
+            tabsContainer.style.visibility = 'hidden';
+            tabsContainer.style.display = 'flex';
+            tabsHeight = tabsContainer.offsetHeight;
+            tabsContainer.style.display = 'none';
+            tabsContainer.style.visibility = '';
+        }
+    }
+    let sidebarHeaderHeight = 0;
+    if (sidebarHeader) {
+        if (getComputedStyle(sidebarHeader).display !== 'none') {
+            sidebarHeaderHeight = sidebarHeader.offsetHeight;
+        } else {
+            sidebarHeader.style.visibility = 'hidden';
+            sidebarHeader.style.display = 'block';
+            sidebarHeaderHeight = sidebarHeader.offsetHeight;
+            sidebarHeader.style.display = 'none';
+            sidebarHeader.style.visibility = '';
+        }
+    }
+
+    document.documentElement.style.setProperty('--mobile-tabs-height', (tabsHeight + headerHeight) + 'px');
+    document.documentElement.style.setProperty('--mobile-sidebar-header-height', (sidebarHeaderHeight + headerHeight) + 'px');
+
+    // Ensure editor/sidebar have appropriate padding to avoid overlap
+    if (editor) {
+        editor.style.paddingTop = (tabsHeight + headerHeight) + 'px';
+    }
+    if (sidebar) {
+        sidebar.style.paddingTop = (sidebarHeaderHeight + headerHeight) + 'px';
+    }
+
+    document.documentElement.dataset.pinnedInit = 'true';
+}
+
+window.addEventListener('resize', () => setupPinnedBars(true));
 
 // Setup swipe gestures
 function setupSwipeGestures() {
