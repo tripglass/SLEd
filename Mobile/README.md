@@ -1,4 +1,4 @@
-# 📱 Simple Lorebook Editor (SLEd) - Mobile Version
+# 📱 Simple Lorebook Editor (SLEd) - Mobile Version v3.4
 
 ## 🎯 Quick Start
 
@@ -205,3 +205,25 @@ For complete documentation with all features and technical details, see `DOCUMEN
 - ❌ Drag-and-drop files (uses file picker)
 
 Both versions support the same lorebook format and can edit the same files!
+
+---
+
+## 📈 Version History
+
+### v3.4 (Current)
+**Mobile UX Improvements**
+- ✅ Fixed toolbar scrolling: Control bars now remain fixed below header at all times
+- ✅ Three-frame layout: Separate fixed frames for header, controls, and scrollable content
+- ✅ PWA status bar theming: Automatically matches app background color in light/dark mode
+- ✅ Enhanced scroll containment and touch handling
+- ✅ Optimized mobile layout dimensions for better screen space usage
+
+### v3.3
+- Mobile version launched with full feature parity
+- Swipe navigation and touch-optimized interface
+- Smart keyboard handling
+- PWA support with offline functionality
+
+---
+
+*Version 3.4 - November 2025*

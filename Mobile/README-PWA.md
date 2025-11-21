@@ -1,10 +1,17 @@
-# SLEd Mobile - PWA Implementation
+# SLEd Mobile v3.4 - PWA Implementation
 
 This fork adds Progressive Web App (PWA) functionality to the mobile version of SLEd (Simple Lorebook Editor).
 
-## 🚀 What's New
+## 🚀 What's New in v3.4
 
-### PWA Features Added
+### Mobile UX Improvements
+- **🔒 Fixed Toolbars**: Control bars now stay fixed below header and never scroll
+- **📐 Three-Frame Layout**: Separate fixed frames for header, controls, and scrollable content
+- **🎨 Adaptive Status Bar**: PWA status bar automatically matches light/dark theme
+- **📱 Enhanced Touch**: Improved scroll containment and touch handling
+- **📏 Optimized Layout**: Better screen space utilization on mobile devices
+
+### PWA Features
 - **📱 Install to Home Screen**: Add SLEd as a standalone app on your mobile device
 - **⚡ Offline Functionality**: Works without internet connection after first load
 - **🔄 Automatic Updates**: Get notified when new versions are available

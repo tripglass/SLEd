@@ -1,4 +1,4 @@
-# 📚 Simple Lorebook Editor (SLEd) - Desktop Version
+# 📚 Simple Lorebook Editor (SLEd) v3.4 - Desktop Version
 
 A lightweight, browser-based editor for SillyTavern lorebook files with an ADHD-friendly interface!
 

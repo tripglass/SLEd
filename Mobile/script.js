@@ -3245,6 +3245,9 @@ function toggleTheme() {
         themeBtn.title = 'Toggle Dark Mode';
         localStorage.setItem('theme', 'light');
     }
+    
+    // Update PWA status bar color
+    updateThemeColor();
 }
 
 // Font Toggle
@@ -3321,6 +3324,9 @@ function loadPreferences() {
         themeBtn.innerHTML = '<span class="material-symbols-outlined">light_mode</span> Light';
         themeBtn.title = 'Toggle Light Mode';
     }
+    
+    // Update PWA status bar color to match theme
+    updateThemeColor();
     
     // Apply saved font preference
     if (savedFont === 'true') {

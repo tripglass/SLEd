@@ -2,10 +2,11 @@
   "name": "SLEd - Simple Lorebook Editor",
   "short_name": "SLEd",
   "description": "A mobile-friendly lorebook editor for character AI applications",
+  "version": "3.4",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#2196f3",
+  "background_color": "#faf7f2",
+  "theme_color": "#faf7f2",
   "orientation": "portrait",
   "icons": [
     {
