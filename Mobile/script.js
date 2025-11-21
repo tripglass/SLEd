@@ -79,6 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeEventListeners();
     setupKeyboardHandling();
     setupPinnedBars();
+    // Initialize with sidebar visible, tabs hidden
+    const tabsContainer = document.getElementById('mobileTabsContainer');
+    const sidebarHeader = document.getElementById('mobileSidebarHeader');
+    if (tabsContainer) tabsContainer.style.display = 'none';
+    if (sidebarHeader) sidebarHeader.style.display = 'block';
+    // Force a recalc after initial setup
+    setTimeout(() => setupPinnedBars(true), 100);
 });
 
 // Keyboard Handling for Mobile
@@ -3821,8 +3828,8 @@ function switchToMobilePanel(panel) {
     const editorPanel = document.getElementById('editorPanel');
     const entriesNavBtn = document.getElementById('entriesNavBtn');
     const editorNavBtn = document.getElementById('editorNavBtn');
-    const sidebarHeader = document.querySelector('.mobile-sidebar-header');
-    const tabsContainer = document.querySelector('.mobile-tabs-container');
+    const sidebarHeader = document.getElementById('mobileSidebarHeader');
+    const tabsContainer = document.getElementById('mobileTabsContainer');
     
     if (!entriesPanel || !editorPanel) return;
     
@@ -3852,16 +3859,14 @@ function switchToMobilePanel(panel) {
             editorNavBtn.classList.remove('active');
         }
     }
-
+    
     // Recalculate heights after panel switch
     setupPinnedBars(true);
-}
-
-// Set up fixed pinned bars and dynamic height compensation
+}// Set up fixed pinned bars and dynamic height compensation
 function setupPinnedBars(forceRecalc = false) {
     const appHeader = document.querySelector('.app-header');
-    const tabsContainer = document.querySelector('.mobile-tabs-container');
-    const sidebarHeader = document.querySelector('.mobile-sidebar-header');
+    const tabsContainer = document.getElementById('mobileTabsContainer');
+    const sidebarHeader = document.getElementById('mobileSidebarHeader');
     const editorContent = document.querySelector('.mobile-editor-content');
     const entryList = document.querySelector('.mobile-entry-list');
 
@@ -3869,6 +3874,14 @@ function setupPinnedBars(forceRecalc = false) {
 
     const headerHeight = appHeader ? appHeader.offsetHeight : 0;
     document.documentElement.style.setProperty('--app-header-height', headerHeight + 'px');
+
+    // Set the actual top position for fixed toolbars
+    if (tabsContainer) {
+        tabsContainer.style.top = headerHeight + 'px';
+    }
+    if (sidebarHeader) {
+        sidebarHeader.style.top = headerHeight + 'px';
+    }
 
     // Determine which bar is currently visible and measure heights
     let tabsHeight = 0;

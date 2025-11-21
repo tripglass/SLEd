@@ -132,29 +132,48 @@
             </div>
         </div>
 
+        <!-- Fixed Mobile Toolbars (outside transform containers) -->
+        <div class="mobile-sidebar-header" id="mobileSidebarHeader">
+            <div class="mobile-top-controls">
+                <div class="mobile-zoom-controls">
+                    <button id="zoomOut" class="mobile-zoom-btn" title="Zoom Out">-</button>
+                    <span id="zoomLevel" class="mobile-zoom-level">Normal</span>
+                    <button id="zoomIn" class="mobile-zoom-btn" title="Zoom In">+</button>
+                </div>
+                <div class="mobile-entry-count">
+                    <span id="entryCount">0 entries</span>
+                </div>
+                <button id="mobileSearchToggle" class="btn btn-icon mobile-search-toggle" title="Search">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+            </div>
+            <div id="mobileSearchContainer" class="mobile-search-container" style="display: none;">
+                <input type="text" id="searchEntries" placeholder="Search entries..." class="mobile-search-input">
+            </div>
+        </div>
+
+        <div class="mobile-tabs-container" id="mobileTabsContainer">
+            <div id="tabBar" class="mobile-tab-bar">
+                <!-- Tabs will appear here -->
+            </div>
+            <div class="mobile-view-controls">
+                <button id="expandContentBtn" class="btn-icon" title="Expand Content Field" style="display: none;">
+                    <span class="material-symbols-outlined">open_in_full</span>
+                </button>
+                <button id="saveEntryBtn" class="btn-icon" title="Save entry">
+                    <span id="saveIcon" class="material-symbols-outlined">save</span>
+                </button>
+                <button id="clearSelection" class="btn-icon" title="Clear selection" style="display: none;">
+                        <span><span class="material-symbols-outlined">check_box</span> Clear</span>
+                </button>
+            </div>
+        </div>
+
         <!-- Main Content - Swipeable Mobile Panels -->
         <div class="mobile-swipe-container">
             <!-- Entry List Panel (Left) -->
             <div class="mobile-panel mobile-panel-entries" id="entriesPanel">
                 <div class="mobile-sidebar">
-                    <div class="mobile-sidebar-header">
-                        <div class="mobile-top-controls">
-                            <div class="mobile-zoom-controls">
-                                <button id="zoomOut" class="mobile-zoom-btn" title="Zoom Out">-</button>
-                                <span id="zoomLevel" class="mobile-zoom-level">Normal</span>
-                                <button id="zoomIn" class="mobile-zoom-btn" title="Zoom In">+</button>
-                            </div>
-                            <div class="mobile-entry-count">
-                                <span id="entryCount">0 entries</span>
-                            </div>
-                            <button id="mobileSearchToggle" class="btn btn-icon mobile-search-toggle" title="Search">
-                                <span class="material-symbols-outlined">search</span>
-                            </button>
-                        </div>
-                        <div id="mobileSearchContainer" class="mobile-search-container" style="display: none;">
-                            <input type="text" id="searchEntries" placeholder="Search entries..." class="mobile-search-input">
-                        </div>
-                    </div>
                     <ul id="entryList" class="mobile-entry-list">
                         <!-- Entries will be populated here -->
                     </ul>
@@ -164,22 +183,6 @@
             <!-- Editor Panel (Right) -->
             <div class="mobile-panel mobile-panel-editor" id="editorPanel">
                 <div class="mobile-editor">
-                    <div class="mobile-tabs-container">
-                        <div id="tabBar" class="mobile-tab-bar">
-                            <!-- Tabs will appear here -->
-                        </div>
-                        <div class="mobile-view-controls">
-                            <button id="expandContentBtn" class="btn-icon" title="Expand Content Field" style="display: none;">
-                                <span class="material-symbols-outlined">open_in_full</span>
-                            </button>
-                            <button id="saveEntryBtn" class="btn-icon" title="Save entry">
-                                <span id="saveIcon" class="material-symbols-outlined">save</span>
-                            </button>
-                            <button id="clearSelection" class="btn-icon" title="Clear selection" style="display: none;">
-                                    <span><span class="material-symbols-outlined">check_box</span> Clear</span>
-                            </button>
-                        </div>
-                    </div>
                     <div id="editorContent" class="mobile-editor-content">
                         <div class="mobile-empty-state">
                             <p>👈 Swipe right or select an entry to start editing</p>

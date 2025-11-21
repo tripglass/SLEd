@@ -123,6 +123,8 @@ body {
     align-items: center;
     box-shadow: var(--shadow);
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    z-index: 500; /* Above fixed toolbars */
 }
 
 .header-left {
@@ -1863,9 +1865,12 @@ body.dark-mode .btn-icon:hover {
 /* Mobile elements are now the default */
 .mobile-swipe-container {
     display: flex;
-    height: calc(100vh - 96px); /* Account for header only (no nav indicators) */
+    height: calc(100vh - var(--app-header-height, 48px)); /* Account for fixed header */
     overflow: hidden;
     position: relative;
+    /* Ensure container doesn't interfere with fixed toolbars */
+    z-index: 1;
+    margin-top: var(--app-header-height, 48px); /* Push down to account for fixed header */
 }
 
 .mobile-panel {
@@ -2164,12 +2169,16 @@ body.dark-mode .menu-logo-dark {
     justify-content: space-between;
     background: var(--sidebar-bg);
     border-bottom: 1px solid var(--border-color);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 500; /* Above fixed toolbars */
     gap: 0.25rem;
     min-height: 48px;
     flex-wrap: nowrap;
+    transform: translateZ(0); /* Force hardware acceleration */
+    -webkit-transform: translateZ(0); /* iOS Safari */
 }
 
 .mobile-header-left {
@@ -2438,6 +2447,8 @@ body.dark-mode .menu-logo-dark {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     position: relative;
+    /* Ensure sidebar doesn't interfere with fixed header */
+    margin-top: 0;
 }
 
 .mobile-sidebar-header {
@@ -2447,11 +2458,14 @@ body.dark-mode .menu-logo-dark {
     flex-shrink: 0;
     z-index: 400; /* Above everything except modal overlays */
     position: fixed; /* Pin to viewport */
-    top: var(--app-header-height, 0px); /* Sit below app header */
+    top: 48px; /* Below fixed header - will be updated by JS */
     left: 0;
     right: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
+    transform: translateZ(0); /* Force hardware acceleration */
+    -webkit-transform: translateZ(0); /* iOS Safari */
+    display: block; /* Ensure visible by default */
 }
 
 .mobile-top-controls {
@@ -2547,23 +2561,27 @@ body.dark-mode .menu-logo-dark {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     position: relative;
+    /* Ensure editor doesn't interfere with fixed tabs */
+    margin-top: 0;
 }
 
 .mobile-tabs-container {
     padding: 0.75rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--sidebar-bg);
-    display: flex;
+    display: none; /* Hidden by default, shown when in editor panel */
     justify-content: space-between;
     align-items: center;
     position: fixed; /* Pin to viewport */
-    top: var(--app-header-height, 0px); /* Sit below app header */
+    top: 48px; /* Below fixed header - will be updated by JS */
     left: 0;
     right: 0;
     z-index: 400; /* Above editor scroll content */
     flex-shrink: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
+    transform: translateZ(0); /* Force hardware acceleration */
+    -webkit-transform: translateZ(0); /* iOS Safari */
 }
 
 /* Compensating top padding for scrollable content areas so content not hidden under fixed bars */
