@@ -2580,7 +2580,9 @@ body.dark-mode .menu-logo-dark {
 .mobile-entry-list {
     list-style: none;
     flex: 1;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     padding: 0.5rem;
 }
 
@@ -2709,7 +2711,9 @@ body.dark-mode .menu-logo-dark {
 .mobile-editor-content {
     flex: 1;
     padding: 1rem;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     min-height: 0;
 }
