@@ -205,11 +205,39 @@
     <!-- Mobile Menu Overlay -->
     <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
 
-    <!-- Hidden file input for import -->
-    <input type="file" id="fileInput" accept=".json" style="display: none;">
-    
-    <!-- Hidden file input for merge import -->
-    <input type="file" id="fileMergeInput" accept=".json" style="display: none;">
+    <!-- Hidden (offscreen) file inputs for import; kept accessible for mobile browsers -->
+    <input type="file" id="fileInput" accept=".json" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;">
+    <input type="file" id="fileMergeInput" accept=".json" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;">
+
+    <!-- Import Modal -->
+    <div id="importModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="material-symbols-outlined">file_open</span> Import Lorebook</h2>
+                <button id="closeImportModal" class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select a lorebook JSON file to load.</p>
+                <input type="file" id="fileInputVisible" accept=".json" style="margin:0.75rem 0;">
+                <p style="font-size:0.75rem;color:var(--text-secondary);">If the file dialog does not appear automatically, use the chooser above.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Merge Import Modal -->
+    <div id="mergeImportModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="material-symbols-outlined">merge</span> Import for Merging</h2>
+                <button id="closeMergeImportModal" class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select a lorebook JSON file whose entries you want to stage for merging.</p>
+                <input type="file" id="fileMergeInputVisible" accept=".json" style="margin:0.75rem 0;">
+                <p style="font-size:0.75rem;color:var(--text-secondary);">Entries will appear in a staging tab; UIDs are reassigned when merged.</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Help Modal -->
     <div id="helpModal" class="modal" style="display: none;">

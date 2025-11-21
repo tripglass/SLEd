@@ -541,6 +541,29 @@ function initializeEventListeners() {
     document.getElementById('searchReplaceModal').addEventListener('click', (e) => {
         if (e.target.id === 'searchReplaceModal') closeSearchReplaceModal();
     });
+
+    // Import & Merge modal close handlers
+    const closeImportModal = document.getElementById('closeImportModal');
+    if (closeImportModal) closeImportModal.addEventListener('click', () => {
+        const importModal = document.getElementById('importModal');
+        if (importModal) importModal.style.display = 'none';
+    });
+    const closeMergeImportModal = document.getElementById('closeMergeImportModal');
+    if (closeMergeImportModal) closeMergeImportModal.addEventListener('click', () => {
+        const mergeModal = document.getElementById('mergeImportModal');
+        if (mergeModal) mergeModal.style.display = 'none';
+    });
+    // Click outside to close import/merge modals
+    const importModal = document.getElementById('importModal');
+    if (importModal) importModal.addEventListener('click', (e)=>{ if(e.target.id==='importModal') importModal.style.display='none'; });
+    const mergeImportModal = document.getElementById('mergeImportModal');
+    if (mergeImportModal) mergeImportModal.addEventListener('click', (e)=>{ if(e.target.id==='mergeImportModal') mergeImportModal.style.display='none'; });
+
+    // Visible file inputs wiring
+    const fileInputVisible = document.getElementById('fileInputVisible');
+    if (fileInputVisible) fileInputVisible.addEventListener('change', handleFileSelect);
+    const fileMergeInputVisible = document.getElementById('fileMergeInputVisible');
+    if (fileMergeInputVisible) fileMergeInputVisible.addEventListener('change', handleMergeFileSelect);
     
     // Load saved preferences
     loadPreferences();
@@ -556,7 +579,18 @@ function handleLorebookNameChange(event) {
 
 // Import Lorebook
 function importLorebook() {
-    document.getElementById('fileInput').click();
+    const hidden = document.getElementById('fileInput');
+    if (hidden) {
+        try { hidden.click(); } catch(e) { /* ignore */ }
+    }
+    setTimeout(() => {
+        const importModal = document.getElementById('importModal');
+        if (importModal && importModal.style.display === 'none') {
+            importModal.style.display = 'flex';
+            const visibleInput = document.getElementById('fileInputVisible');
+            if (visibleInput) visibleInput.focus();
+        }
+    }, 200);
 }
 
 function handleFileSelect(event) {
@@ -605,8 +639,12 @@ function handleFileSelect(event) {
     };
     reader.readAsText(file);
     
-    // Reset file input
+    // Reset file inputs and close modal
     event.target.value = '';
+    const visible = document.getElementById('fileInputVisible');
+    if (visible && visible !== event.target) visible.value = '';
+    const importModal = document.getElementById('importModal');
+    if (importModal) importModal.style.display = 'none';
 }
 
 // Export Lorebook
@@ -636,7 +674,18 @@ function exportLorebook() {
 
 // Import Lorebook for Merging
 function importLorebookForMerge() {
-    document.getElementById('fileMergeInput').click();
+    const hidden = document.getElementById('fileMergeInput');
+    if (hidden) {
+        try { hidden.click(); } catch(e) { /* ignore */ }
+    }
+    setTimeout(() => {
+        const mergeModal = document.getElementById('mergeImportModal');
+        if (mergeModal && mergeModal.style.display === 'none') {
+            mergeModal.style.display = 'flex';
+            const visibleInput = document.getElementById('fileMergeInputVisible');
+            if (visibleInput) visibleInput.focus();
+        }
+    }, 200);
 }
 
 function handleMergeFileSelect(event) {
@@ -673,8 +722,12 @@ function handleMergeFileSelect(event) {
     };
     reader.readAsText(file);
     
-    // Reset file input
+    // Reset file inputs and close modal
     event.target.value = '';
+    const visible = document.getElementById('fileMergeInputVisible');
+    if (visible && visible !== event.target) visible.value = '';
+    const mergeModal = document.getElementById('mergeImportModal');
+    if (mergeModal) mergeModal.style.display = 'none';
 }
 
 function showMergeModal() {
