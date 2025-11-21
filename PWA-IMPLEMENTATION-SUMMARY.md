@@ -26,10 +26,9 @@ This fork adds Progressive Web App (PWA) functionality to the mobile version of 
    - Caches essential resources for offline use
    - Cleans up old cache versions
 
-3. **generate-icons.html**
-   - Browser-based tool to generate app icons
-   - Creates both 192x192 and 512x512 PNG icons
-   - Uses SLEd branding (blue with "SL Ed" text)
+3. (icons not bundled)
+   - Provide `Mobile/icon-192.png` and `Mobile/icon-512.png` yourself
+   - You can resize `Sledlogo.png` or use your own artwork
 
 ### Documentation Files
 4. **README-PWA.md** (in Mobile/)
@@ -170,12 +169,11 @@ This fork adds Progressive Web App (PWA) functionality to the mobile version of 
 
 ## Deployment Steps
 
-1. Generate icons using `generate-icons.html`
-2. Place icons in `Mobile/` directory
-3. Upload all files to HTTPS-enabled hosting
-4. Test installation on target devices
-5. Monitor service worker registration
-6. Verify offline functionality
+1. Prepare icons (`Mobile/icon-192.png` and `Mobile/icon-512.png`)
+2. Upload all files to HTTPS-enabled hosting
+3. Test installation on target devices
+4. Monitor service worker registration
+5. Verify offline functionality
 
 ## Maintenance
 
@@ -234,10 +232,7 @@ Potential improvements for future versions:
 
 ## Credits
 
-- **Original SLEd**: ActualBroeckchen
-- **PWA Implementation**: This fork
-- **Service Worker Pattern**: Based on MDN best practices
-- **Icons**: Generated tool included
+**Icons**: Provide your own PNGs (see `Mobile/PWA-SETUP.md`)
 
 ## Support
 

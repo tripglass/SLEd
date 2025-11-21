@@ -23,7 +23,7 @@ This repository is a fork of the original SLEd (Simple Lorebook Editor) with Pro
 ### For End Users
 
 1. **Visit the mobile site** (must be served over HTTPS or localhost)
-2. **Install icons** - Run `Mobile/generate-icons.html` to create app icons
+2. **Install icons** - Ensure `Mobile/icon-192.png` and `Mobile/icon-512.png` exist (see `Mobile/PWA-SETUP.md`)
 3. **Install the app:**
    - **Android**: Tap menu → "Install app" or "Add to Home Screen"
    - **iOS**: Tap Share → "Add to Home Screen"
@@ -43,9 +43,8 @@ See detailed documentation in:
 Mobile/
 ├── manifest.json          # PWA configuration
 ├── service-worker.js      # Offline functionality
-├── generate-icons.html    # Icon generator tool
 ├── README-PWA.md          # Detailed documentation
-└── PWA-SETUP.md          # Setup instructions
+└── PWA-SETUP.md           # Setup instructions
 ```
 
 ## Files Modified
@@ -63,7 +62,7 @@ Mobile/
 
 ## Installation Status
 
-⚠️ **Action Required**: Generate icons using `Mobile/generate-icons.html`
+⚠️ **Action Required**: Provide icons in `Mobile/` (`icon-192.png`, `icon-512.png`)
 
 Once icons are in place:
 - ✅ PWA manifest configured
