@@ -27,6 +27,10 @@
     --font-header: 'Fredericka the Great', cursive;
     --font-body: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-dyslexic: 'OpenDyslexic', 'Comic Sans MS', cursive;
+    --font-editor-mono: 'Courier New', 'Consolas', monospace;
+    --font-editor-sans: 'Lexend Deca', 'Arial', sans-serif;
+    --font-editor-serif: 'Merriweather', 'Georgia', serif;
+    --font-editor: var(--font-editor-mono);
 }
 
 /* Dark Mode - Dark Chocolate Theme */
@@ -52,6 +56,32 @@ body.dark-mode {
 /* Dyslexia Font Mode */
 body.dyslexia-font {
     --font-body: var(--font-dyslexic);
+}
+
+body.dyslexia-font .form-textarea,
+body.dyslexia-font textarea,
+body.dyslexia-font input[type="text"],
+body.dyslexia-font .tab {
+    font-family: var(--font-dyslexic) !important;
+}
+
+/* Editor Font Modes */
+body.editor-font-mono {
+    --font-editor: var(--font-editor-mono);
+}
+
+body.editor-font-sans {
+    --font-editor: var(--font-editor-sans);
+}
+
+body.editor-font-serif {
+    --font-editor: var(--font-editor-serif);
+}
+
+/* Apply editor font to editable text areas */
+.form-textarea,
+textarea {
+    font-family: var(--font-editor) !important;
 }
 
 /* OpenDyslexic Font Face */
@@ -1163,7 +1193,6 @@ body.dark-mode .btn-icon:hover {
 .form-textarea {
     min-height: 200px;
     resize: vertical;
-    font-family: 'Courier New', monospace;
 }
 
 /* Keywords Row Layout */

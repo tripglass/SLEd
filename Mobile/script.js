@@ -282,6 +282,9 @@ function initializeEventListeners() {
     const fontToggle = document.getElementById('fontToggle');
     if (fontToggle) fontToggle.addEventListener('click', toggleDyslexiaFont);
     
+    const editorFontToggle = document.getElementById('editorFontToggle');
+    if (editorFontToggle) editorFontToggle.addEventListener('click', toggleEditorFont);
+    
     const zoomOut = document.getElementById('zoomOut');
     if (zoomOut) zoomOut.addEventListener('click', () => changeZoomLevel(-1));
     
@@ -3251,10 +3254,50 @@ function toggleDyslexiaFont() {
     }
 }
 
+// Editor Font Toggle
+function toggleEditorFont() {
+    const body = document.body;
+    const fontBtn = document.getElementById('editorFontToggle');
+    const fontLabel = document.getElementById('editorFontLabel');
+    
+    // Remove all editor font classes
+    body.classList.remove('editor-font-mono', 'editor-font-sans', 'editor-font-serif');
+    
+    // Get current font mode from localStorage
+    let currentMode = localStorage.getItem('editorFont') || 'mono';
+    
+    // Cycle through modes: mono -> sans -> serif -> mono
+    let newMode, newLabel, newIcon;
+    if (currentMode === 'mono') {
+        newMode = 'sans';
+        newLabel = 'Sans-serif';
+        newIcon = 'font_download';
+        body.classList.add('editor-font-sans');
+    } else if (currentMode === 'sans') {
+        newMode = 'serif';
+        newLabel = 'Serif';
+        newIcon = 'serif';
+        body.classList.add('editor-font-serif');
+    } else {
+        newMode = 'mono';
+        newLabel = 'Monospace';
+        newIcon = 'slab_serif';
+        body.classList.add('editor-font-mono');
+    }
+    
+    if (fontLabel) fontLabel.textContent = newLabel;
+    if (fontBtn) {
+        const iconSpan = fontBtn.querySelector('.material-symbols-outlined');
+        if (iconSpan) iconSpan.textContent = newIcon;
+    }
+    localStorage.setItem('editorFont', newMode);
+}
+
 // Load Preferences
 function loadPreferences() {
     const savedTheme = localStorage.getItem('theme');
     const savedFont = localStorage.getItem('dyslexiaFont');
+    const savedEditorFont = localStorage.getItem('editorFont');
     const savedZoom = localStorage.getItem('sidebarZoom');
     
     // Apply saved theme
@@ -3273,6 +3316,33 @@ function loadPreferences() {
         fontBtn.title = 'Disable Dyslexia-Friendly Font';
         fontBtn.style.background = 'var(--primary-color)';
         fontBtn.style.color = 'white';
+    }
+    
+    // Apply saved editor font
+    if (savedEditorFont) {
+        const fontLabel = document.getElementById('editorFontLabel');
+        const fontBtn = document.getElementById('editorFontToggle');
+        const iconSpan = fontBtn ? fontBtn.querySelector('.material-symbols-outlined') : null;
+        
+        if (savedEditorFont === 'sans') {
+            document.body.classList.add('editor-font-sans');
+            if (fontLabel) fontLabel.textContent = 'Sans-serif';
+            if (iconSpan) iconSpan.textContent = 'font_download';
+        } else if (savedEditorFont === 'serif') {
+            document.body.classList.add('editor-font-serif');
+            if (fontLabel) fontLabel.textContent = 'Serif';
+            if (iconSpan) iconSpan.textContent = 'serif';
+        } else {
+            document.body.classList.add('editor-font-mono');
+            if (fontLabel) fontLabel.textContent = 'Monospace';
+            if (iconSpan) iconSpan.textContent = 'slab_serif';
+        }
+    } else {
+        // Default to monospace
+        document.body.classList.add('editor-font-mono');
+        const fontBtn = document.getElementById('editorFontToggle');
+        const iconSpan = fontBtn ? fontBtn.querySelector('.material-symbols-outlined') : null;
+        if (iconSpan) iconSpan.textContent = 'slab_serif';
     }
     
     // Apply saved zoom level
