@@ -2564,8 +2564,8 @@ body.dark-mode .menu-logo-dark {
 .mobile-entry-list {
     list-style: none;
     flex: 1;
-    /* Scroll handled by parent .mobile-sidebar for sticky header */
-    overflow: visible;
+    overflow: hidden;
+    padding: 0.5rem;
 }
 
 /* ===== MOBILE EDITOR ===== */
@@ -2693,8 +2693,7 @@ body.dark-mode .menu-logo-dark {
 .mobile-editor-content {
     flex: 1;
     padding: 1rem;
-    /* Scrolling now handled by .mobile-editor for sticky tabs */
-    overflow: visible;
+    overflow: hidden;
     scroll-behavior: smooth;
     min-height: 0;
 }
