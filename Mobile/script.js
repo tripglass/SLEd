@@ -3862,8 +3862,8 @@ function setupPinnedBars(forceRecalc = false) {
     const appHeader = document.querySelector('.app-header');
     const tabsContainer = document.querySelector('.mobile-tabs-container');
     const sidebarHeader = document.querySelector('.mobile-sidebar-header');
-    const editor = document.querySelector('.mobile-editor');
-    const sidebar = document.querySelector('.mobile-sidebar');
+    const editorContent = document.querySelector('.mobile-editor-content');
+    const entryList = document.querySelector('.mobile-entry-list');
 
     if (!forceRecalc && document.documentElement.dataset.pinnedInit === 'true') return;
 
@@ -3900,12 +3900,12 @@ function setupPinnedBars(forceRecalc = false) {
     document.documentElement.style.setProperty('--mobile-tabs-height', (tabsHeight + headerHeight) + 'px');
     document.documentElement.style.setProperty('--mobile-sidebar-header-height', (sidebarHeaderHeight + headerHeight) + 'px');
 
-    // Ensure editor/sidebar have appropriate padding to avoid overlap
-    if (editor) {
-        editor.style.paddingTop = (tabsHeight + headerHeight) + 'px';
+    // Apply padding to scrollable content areas, not the containers
+    if (editorContent) {
+        editorContent.style.paddingTop = `calc(${tabsHeight + headerHeight}px + 1rem)`;
     }
-    if (sidebar) {
-        sidebar.style.paddingTop = (sidebarHeaderHeight + headerHeight) + 'px';
+    if (entryList) {
+        entryList.style.paddingTop = (sidebarHeaderHeight + headerHeight) + 'px';
     }
 
     document.documentElement.dataset.pinnedInit = 'true';

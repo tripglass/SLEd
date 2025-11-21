@@ -2433,8 +2433,8 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--sidebar-bg);
-    /* Allow scrolling of entire sidebar so header can stick */
-    overflow-y: auto;
+    /* Only the content area should scroll, not the whole sidebar */
+    overflow: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     position: relative;
@@ -2451,6 +2451,7 @@ body.dark-mode .menu-logo-dark {
     left: 0;
     right: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .mobile-top-controls {
@@ -2529,8 +2530,10 @@ body.dark-mode .menu-logo-dark {
 .mobile-entry-list {
     list-style: none;
     flex: 1;
-    /* Scroll handled by parent .mobile-sidebar for sticky header */
-    overflow: visible;
+    /* This list should scroll independently */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: var(--mobile-sidebar-header-height, 60px);
 }
 
 /* ===== MOBILE EDITOR ===== */
@@ -2539,8 +2542,8 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--editor-bg);
-    /* Make the whole editor the scroll container for sticky tabs */
-    overflow-y: auto;
+    /* Editor itself should not scroll - only its content area */
+    overflow: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     position: relative;
@@ -2560,16 +2563,11 @@ body.dark-mode .menu-logo-dark {
     z-index: 400; /* Above editor scroll content */
     flex-shrink: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
-/* Compensating top padding for panels so content not hidden under fixed bars */
-.mobile-editor {
-    padding-top: var(--mobile-tabs-height, 0px);
-}
-
-.mobile-sidebar {
-    padding-top: var(--mobile-sidebar-header-height, 0px);
-}
+/* Compensating top padding for scrollable content areas so content not hidden under fixed bars */
+/* Padding is now applied dynamically via JavaScript to the scrollable containers */
 
 .mobile-tab-bar {
     display: flex;
@@ -2666,10 +2664,12 @@ body.dark-mode .menu-logo-dark {
 .mobile-editor-content {
     flex: 1;
     padding: 1rem;
-    /* Scrolling now handled by .mobile-editor for sticky tabs */
-    overflow: visible;
+    /* This content area should scroll independently */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     min-height: 0;
+    padding-top: calc(var(--mobile-tabs-height, 60px) + 1rem);
 }
 
 .mobile-empty-state {
