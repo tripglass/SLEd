@@ -75,81 +75,10 @@ function loadFromLocalStorage() {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    // Manual reload button for service worker/app update
-    const reloadAppBtn = document.getElementById('reloadAppBtn');
-    if (reloadAppBtn) {
-        reloadAppBtn.addEventListener('click', () => {
-            window.location.reload(true);
-        });
-    }
-    try {
-        console.time('[SLEd] init');
-        loadFromLocalStorage();
-        initializeEventListeners();
-        setupKeyboardHandling();
-        
-        // Initialize control bars visibility
-        const sidebarHeader = document.getElementById('mobileSidebarHeader');
-        const tabsContainer = document.getElementById('mobileTabsContainer');
-        
-        // Show sidebar header by default, hide tabs container
-        if (sidebarHeader) {
-            sidebarHeader.style.opacity = '1';
-            sidebarHeader.style.visibility = 'visible';
-        }
-        if (tabsContainer) {
-            tabsContainer.style.opacity = '0';
-            tabsContainer.style.visibility = 'hidden';
-        }
-        console.timeEnd('[SLEd] init');
-        console.log('[SLEd] Initialization complete');
-        verifyMobileBindings();
-    } catch (err) {
-        console.error('[SLEd] Initialization error:', err);
-        // Retry once after a short delay in case of transient race/shadow issues
-        setTimeout(() => {
-            try {
-                console.warn('[SLEd] Retrying initialization...');
-                initializeEventListeners();
-                console.log('[SLEd] Retry initialization finished');
-                verifyMobileBindings();
-            } catch (retryErr) {
-                console.error('[SLEd] Retry failed:', retryErr);
-            }
-        }, 250);
-    }
+    loadFromLocalStorage();
+    initializeEventListeners();
+    setupKeyboardHandling();
 });
-
-function verifyMobileBindings() {
-    const ids = [
-        'entriesNavBtn','editorNavBtn','mobileImportBtn','mobileExportBtn',
-        'importBtn','importMergeBtn','exportBtn','exportTextBtn','newEntryBtn'
-    ];
-    const missing = [];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) {
-            missing.push(id + ':element');
-            return;
-        }
-        switch(id) {
-            case 'entriesNavBtn': el.onclick || el.addEventListener('click', () => switchToMobilePanel('entries')); break;
-            case 'editorNavBtn': el.onclick || el.addEventListener('click', () => switchToMobilePanel('editor')); break;
-            case 'mobileImportBtn': el.onclick || el.addEventListener('click', (e)=>{e.stopPropagation(); const m=document.getElementById('mobileImportMenu'); if(m){m.classList.toggle('show'); const ex=document.getElementById('mobileExportMenu'); if(ex) ex.classList.remove('show');}}); break;
-            case 'mobileExportBtn': el.onclick || el.addEventListener('click', (e)=>{e.stopPropagation(); const m=document.getElementById('mobileExportMenu'); if(m){m.classList.toggle('show'); const im=document.getElementById('mobileImportMenu'); if(im) im.classList.remove('show');}}); break;
-            case 'importBtn': el.onclick || el.addEventListener('click', importLorebook); break;
-            case 'importMergeBtn': el.onclick || el.addEventListener('click', importLorebookForMerge); break;
-            case 'exportBtn': el.onclick || el.addEventListener('click', exportLorebook); break;
-            case 'exportTextBtn': el.onclick || el.addEventListener('click', showExportTextModal); break;
-            case 'newEntryBtn': el.onclick || el.addEventListener('click', createNewEntry); break;
-        }
-    });
-    if (missing.length) {
-        console.warn('[SLEd] Missing elements during binding verification:', missing.join(', '));
-    } else {
-        console.log('[SLEd] Mobile bindings verified.');
-    }
-}
 
 // Keyboard Handling for Mobile
 function setupKeyboardHandling() {
@@ -335,8 +264,8 @@ function initializeEventListeners() {
     const expandContentBtn = document.getElementById('expandContentBtn');
     if (expandContentBtn) expandContentBtn.addEventListener('click', toggleExpandContent);
     
-    const clearSelectionBtn = document.getElementById('clearSelection');
-    if (clearSelectionBtn) clearSelectionBtn.addEventListener('click', clearEntrySelection);
+    const clearSelection = document.getElementById('clearSelection');
+    if (clearSelection) clearSelection.addEventListener('click', clearSelection);
     
     const lorebookName = document.getElementById('lorebookName');
     if (lorebookName) lorebookName.addEventListener('input', handleLorebookNameChange);
@@ -1479,7 +1408,7 @@ function toggleEntrySelection(uid) {
     renderEntryList();
 }
 
-function clearEntrySelection() {
+function clearSelection() {
     selectedEntries = [];
     renderEntryList();
 }
@@ -1748,7 +1677,7 @@ function renderTabs() {
         
         // Handle README tab
         if (uid === 'readme-tab') {
-            tabName = '📄 README';
+            tabName = '� README';
             showUnsavedIndicator = false;
         } else if (uid === 'merge-staging-tab') {
             tabName = '🔀 Merge';
@@ -3302,9 +3231,6 @@ function toggleTheme() {
         themeBtn.title = 'Toggle Dark Mode';
         localStorage.setItem('theme', 'light');
     }
-    
-    // Update PWA status bar color
-    updateThemeColor();
 }
 
 // Font Toggle
@@ -3382,9 +3308,6 @@ function loadPreferences() {
         themeBtn.title = 'Toggle Light Mode';
     }
     
-    // Update PWA status bar color to match theme
-    updateThemeColor();
-    
     // Apply saved font preference
     if (savedFont === 'true') {
         document.body.classList.add('dyslexia-font');
@@ -3460,8 +3383,8 @@ function generateMarkdownExport(options) {
     const getLogicText = (logicNum) => {
         const logicMap = {
             0: 'AND ANY',
-            1: 'NOT ANY',
-            2: 'NOT ALL',
+            1: 'NOT ALL',
+            2: 'NOT ANY',
             3: 'AND ALL'
         };
         return logicMap[logicNum] || 'AND ANY';
@@ -3876,23 +3799,11 @@ function setupMobileDropdowns() {
         mobileImportMenu.addEventListener('click', (e) => {
             e.stopPropagation();
         });
-        // Auto-close on any action
-        mobileImportMenu.querySelectorAll('.mobile-dropdown-item').forEach(btn => {
-            btn.addEventListener('click', () => {
-                mobileImportMenu.classList.remove('show');
-            });
-        });
     }
-
+    
     if (mobileExportMenu) {
         mobileExportMenu.addEventListener('click', (e) => {
             e.stopPropagation();
-        });
-        // Auto-close on any action
-        mobileExportMenu.querySelectorAll('.mobile-dropdown-item').forEach(btn => {
-            btn.addEventListener('click', () => {
-                mobileExportMenu.classList.remove('show');
-            });
         });
     }
 }
@@ -3909,8 +3820,6 @@ function switchToMobilePanel(panel) {
     const editorPanel = document.getElementById('editorPanel');
     const entriesNavBtn = document.getElementById('entriesNavBtn');
     const editorNavBtn = document.getElementById('editorNavBtn');
-    const sidebarHeader = document.getElementById('mobileSidebarHeader');
-    const tabsContainer = document.getElementById('mobileTabsContainer');
     
     if (!entriesPanel || !editorPanel) return;
     
@@ -3919,16 +3828,6 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.add('show-editor');
         editorPanel.classList.add('show-editor');
         mobileCurrentPanel = 'editor';
-        
-        // Show tabs container, hide sidebar header
-        if (sidebarHeader) {
-            sidebarHeader.style.opacity = '0';
-            sidebarHeader.style.visibility = 'hidden';
-        }
-        if (tabsContainer) {
-            tabsContainer.style.opacity = '1';
-            tabsContainer.style.visibility = 'visible';
-        }
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
@@ -3939,16 +3838,6 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.remove('show-editor');
         editorPanel.classList.remove('show-editor');
         mobileCurrentPanel = 'entries';
-        
-        // Show sidebar header, hide tabs container
-        if (sidebarHeader) {
-            sidebarHeader.style.opacity = '1';
-            sidebarHeader.style.visibility = 'visible';
-        }
-        if (tabsContainer) {
-            tabsContainer.style.opacity = '0';
-            tabsContainer.style.visibility = 'hidden';
-        }
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
