@@ -2,14 +2,13 @@
 
 Get SLEd running as a Progressive Web App in 3 easy steps!
 
-## Step 1: Generate Icons (1 minute)
+## Step 1: Add Icons (1 minute)
 
-1. Open `Mobile/generate-icons.html` in any web browser
-2. Click "Download 192x192 Icon" - save as `icon-192.png`
-3. Click "Download 512x512 Icon" - save as `icon-512.png`
-4. Place both files in the `Mobile/` directory
-
-**Alternative**: If you have custom 192x192 and 512x512 PNG icons, use those instead!
+1. Create two PNG icons and place them in the `Mobile/` directory:
+   - `icon-192.png` (192x192)
+   - `icon-512.png` (512x512)
+2. You can resize `Sledlogo.png` (root) or use your own.
+3. For tips, see `Mobile/PWA-SETUP.md`.
 
 ## Step 2: Serve the App (30 seconds)
 

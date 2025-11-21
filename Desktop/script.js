@@ -2774,8 +2774,8 @@ function generateMarkdownExport(options) {
     const getLogicText = (logicNum) => {
         const logicMap = {
             0: 'AND ANY',
-            1: 'NOT ALL',
-            2: 'NOT ANY',
+            1: 'NOT ANY',
+            2: 'NOT ALL',
             3: 'AND ALL'
         };
         return logicMap[logicNum] || 'AND ANY';

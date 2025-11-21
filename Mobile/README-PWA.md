@@ -25,22 +25,19 @@ This fork adds Progressive Web App (PWA) functionality to the mobile version of 
 1. **`manifest.json`** - PWA configuration defining app properties
 2. **`service-worker.js`** - Handles offline caching and updates
 3. **`PWA-SETUP.md`** - Detailed setup instructions
-4. **`generate-icons.html`** - Tool to generate app icons
-5. **`README-PWA.md`** - This file
+4. **`README-PWA.md`** - This file
 
 ### Modified Files
 1. **`index.html`** - Added PWA meta tags and service worker registration
 
 ## 🛠️ Setup Instructions
 
-### 1. Generate Icons
-Open `generate-icons.html` in your browser and download both icons:
+### 1. Add Icons
+Create or provide two PNG icons and place them in the `Mobile/` directory:
 - `icon-192.png` (192x192 pixels)
 - `icon-512.png` (512x512 pixels)
 
-Place them in the `Mobile/` directory.
-
-**Or** use your own custom icons - just ensure they're 192x192 and 512x512 pixels respectively.
+You can resize `Sledlogo.png` from the project root or use your own assets. See `Mobile/PWA-SETUP.md` for tips.
 
 ### 2. Deploy
 Upload all files to your web server. PWA features require:
