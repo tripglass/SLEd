@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Noto+Sans:wght@400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
@@ -18,11 +18,16 @@
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
+            <button id="headerExpandBtn" class="header-expand-btn" title="Expand Header">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
             <div class="accessibility-column">
                 <button id="themeToggle" class="btn btn-icon" title="Toggle Dark Mode (Ctrl+D)">
                     <span class="material-symbols-outlined">dark_mode</span>
                 </button>
                 <button id="fontToggle" class="btn btn-icon dyslexia-toggle" title="Toggle Dyslexia-Friendly Font (Ctrl+Shift+A)">Aa</button>
+                <button id="editorFontToggle" class="btn btn-icon editor-font-toggle" title="Cycle Editor Font (Monospace → Sans-serif → Serif)"><span class="material-symbols-outlined">slab_serif</span></button>
+                <button id="headerCollapseToggle" class="btn btn-icon" title="Collapse Header"><span class="material-symbols-outlined">expand_circle_up</span></button>
             </div>
             <div class="header-left">
                 <h1>

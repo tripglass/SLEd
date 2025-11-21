@@ -96,6 +96,9 @@ function initializeEventListeners() {
     document.getElementById('closeHelp').addEventListener('click', hideHelp);
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
     document.getElementById('fontToggle').addEventListener('click', toggleDyslexiaFont);
+    document.getElementById('editorFontToggle').addEventListener('click', toggleEditorFont);
+    document.getElementById('headerCollapseToggle').addEventListener('click', toggleHeaderCollapse);
+    document.getElementById('headerExpandBtn').addEventListener('click', toggleHeaderCollapse);
     document.getElementById('zoomOut').addEventListener('click', () => changeZoomLevel(-1));
     document.getElementById('zoomIn').addEventListener('click', () => changeZoomLevel(1));
     
@@ -2598,11 +2601,53 @@ function toggleDyslexiaFont() {
     }
 }
 
+// Editor Font Toggle
+function toggleEditorFont() {
+    const body = document.body;
+    const fontBtn = document.getElementById('editorFontToggle');
+    
+    // Remove all editor font classes
+    body.classList.remove('editor-font-mono', 'editor-font-sans', 'editor-font-serif');
+    
+    // Get current font mode from localStorage
+    let currentMode = localStorage.getItem('editorFont') || 'mono';
+    
+    // Cycle through modes: mono -> sans -> serif -> mono
+    let newMode;
+    if (currentMode === 'mono') {
+        newMode = 'sans';
+        body.classList.add('editor-font-sans');
+        fontBtn.innerHTML = '<span class="material-symbols-outlined">font_download</span>';
+        fontBtn.title = 'Editor Font: Sans-serif (Click for Serif)';
+    } else if (currentMode === 'sans') {
+        newMode = 'serif';
+        body.classList.add('editor-font-serif');
+        fontBtn.innerHTML = '<span class="material-symbols-outlined">serif</span>';
+        fontBtn.title = 'Editor Font: Serif (Click for Monospace)';
+    } else {
+        newMode = 'mono';
+        body.classList.add('editor-font-mono');
+        fontBtn.innerHTML = '<span class="material-symbols-outlined">slab_serif</span>';
+        fontBtn.title = 'Editor Font: Monospace (Click for Sans-serif)';
+    }
+    
+    localStorage.setItem('editorFont', newMode);
+}
+
+// Header Collapse Toggle
+function toggleHeaderCollapse() {
+    const header = document.querySelector('.app-header');
+    const isCollapsed = header.classList.toggle('collapsed');
+    localStorage.setItem('headerCollapsed', isCollapsed ? 'true' : 'false');
+}
+
 // Load Preferences
 function loadPreferences() {
     const savedTheme = localStorage.getItem('theme');
     const savedFont = localStorage.getItem('dyslexiaFont');
+    const savedEditorFont = localStorage.getItem('editorFont');
     const savedZoom = localStorage.getItem('sidebarZoom');
+    const savedHeaderCollapsed = localStorage.getItem('headerCollapsed');
     
     // Apply saved theme
     if (savedTheme === 'dark') {
@@ -2622,10 +2667,44 @@ function loadPreferences() {
         fontBtn.style.color = 'white';
     }
     
+    // Apply saved editor font
+    if (savedEditorFont) {
+        const fontBtn = document.getElementById('editorFontToggle');
+        if (savedEditorFont === 'sans') {
+            document.body.classList.add('editor-font-sans');
+            if (fontBtn) {
+                fontBtn.innerHTML = '<span class="material-symbols-outlined">font_download</span>';
+                fontBtn.title = 'Editor Font: Sans-serif (Click for Serif)';
+            }
+        } else if (savedEditorFont === 'serif') {
+            document.body.classList.add('editor-font-serif');
+            if (fontBtn) {
+                fontBtn.innerHTML = '<span class="material-symbols-outlined">serif</span>';
+                fontBtn.title = 'Editor Font: Serif (Click for Monospace)';
+            }
+        } else {
+            document.body.classList.add('editor-font-mono');
+            if (fontBtn) {
+                fontBtn.innerHTML = '<span class="material-symbols-outlined">slab_serif</span>';
+                fontBtn.title = 'Editor Font: Monospace (Click for Sans-serif)';
+            }
+        }
+    } else {
+        // Default to monospace
+        document.body.classList.add('editor-font-mono');
+        const fontBtn = document.getElementById('editorFontToggle');
+        if (fontBtn) fontBtn.innerHTML = '<span class="material-symbols-outlined">slab_serif</span>';
+    }
+    
     // Apply saved zoom level
     if (savedZoom !== null) {
         currentZoomLevel = parseInt(savedZoom);
         updateZoomUI();
+    }
+    
+    // Apply saved header collapsed state
+    if (savedHeaderCollapsed === 'true') {
+        document.querySelector('.app-header').classList.add('collapsed');
     }
 }
 

@@ -27,6 +27,10 @@
     --font-header: 'Fredericka the Great', cursive;
     --font-body: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-dyslexic: 'OpenDyslexic', 'Comic Sans MS', cursive;
+    --font-editor-mono: 'Courier New', 'Consolas', monospace;
+    --font-editor-sans: 'Lexend Deca', 'Arial', sans-serif;
+    --font-editor-serif: 'Merriweather', 'Georgia', serif;
+    --font-editor: var(--font-editor-mono);
 }
 
 /* Dark Mode - Dark Chocolate Theme */
@@ -52,6 +56,32 @@ body.dark-mode {
 /* Dyslexia Font Mode */
 body.dyslexia-font {
     --font-body: var(--font-dyslexic);
+}
+
+body.dyslexia-font .form-textarea,
+body.dyslexia-font textarea,
+body.dyslexia-font input[type="text"],
+body.dyslexia-font .tab {
+    font-family: var(--font-dyslexic) !important;
+}
+
+/* Editor Font Modes */
+body.editor-font-mono {
+    --font-editor: var(--font-editor-mono);
+}
+
+body.editor-font-sans {
+    --font-editor: var(--font-editor-sans);
+}
+
+body.editor-font-serif {
+    --font-editor: var(--font-editor-serif);
+}
+
+/* Apply editor font to editable text areas */
+.form-textarea,
+textarea {
+    font-family: var(--font-editor) !important;
 }
 
 /* OpenDyslexic Font Face */
@@ -92,7 +122,46 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--shadow);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+}
+
+/* Collapsed Header State */
+.app-header.collapsed {
+    padding: 0.25rem 0.5rem;
+}
+
+.app-header.collapsed .header-left,
+.app-header.collapsed .header-right,
+.app-header.collapsed .accessibility-column {
+    display: none;
+}
+
+.header-expand-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.app-header.collapsed .header-expand-btn {
+    display: flex;
+}
+
+.header-expand-btn:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+.header-expand-btn .material-symbols-outlined {
+    font-size: 1.25rem;
 }
 
 .header-left {
@@ -216,12 +285,40 @@ body.dark-mode .logo-dark {
     gap: 0.75rem;
 }
 
-/* Accessibility Column */
+/* Accessibility Column - L shape layout (two on top, two on bottom forming 2x2 grid) */
 .accessibility-column {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-right: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 2.6rem);
+    grid-auto-rows: 2.6rem;
+    column-gap: 0.35rem;
+    row-gap: 0.35rem;
+    margin-right: 1.25rem;
+    padding-top: 0.15rem;
+    align-content: start;
+}
+
+.accessibility-column #themeToggle { grid-column: 1; grid-row: 1; }
+.accessibility-column #fontToggle { grid-column: 2; grid-row: 1; }
+.accessibility-column #editorFontToggle { grid-column: 1; grid-row: 2; }
+.accessibility-column #headerCollapseToggle { grid-column: 2; grid-row: 2; }
+
+.accessibility-column .btn-icon {
+    width: 2.6rem; /* Slightly wider to avoid icon clipping */
+    height: 2.6rem;
+    min-width: 2.6rem;
+    min-height: 2.6rem;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.accessibility-column .btn-icon .material-symbols-outlined {
+    font-size: 1.55rem; /* Ensure full glyph visibility */
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.55rem; /* Override fallback width/height to prevent clipping */
+    height: 1.55rem;
     overflow: visible;
 }
 
@@ -1099,7 +1196,6 @@ body.dark-mode .modal-body code {
 .form-textarea {
     min-height: 200px;
     resize: vertical;
-    font-family: 'Courier New', monospace;
 }
 
 /* Keywords Row Layout */
