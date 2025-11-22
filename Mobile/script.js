@@ -583,14 +583,9 @@ function importLorebook() {
     if (hidden) {
         try { hidden.click(); } catch(e) { /* ignore */ }
     }
-    setTimeout(() => {
-        const importModal = document.getElementById('importModal');
-        if (importModal && importModal.style.display === 'none') {
-            importModal.style.display = 'flex';
-            const visibleInput = document.getElementById('fileInputVisible');
-            if (visibleInput) visibleInput.focus();
-        }
-    }, 200);
+    // Close dropdown
+    const menu = document.getElementById('mobileImportMenu');
+    if (menu) menu.classList.remove('show');
 }
 
 function handleFileSelect(event) {
@@ -670,6 +665,10 @@ function exportLorebook() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    
+    // Close dropdown
+    const menu = document.getElementById('mobileExportMenu');
+    if (menu) menu.classList.remove('show');
 }
 
 // Import Lorebook for Merging
@@ -678,14 +677,9 @@ function importLorebookForMerge() {
     if (hidden) {
         try { hidden.click(); } catch(e) { /* ignore */ }
     }
-    setTimeout(() => {
-        const mergeModal = document.getElementById('mergeImportModal');
-        if (mergeModal && mergeModal.style.display === 'none') {
-            mergeModal.style.display = 'flex';
-            const visibleInput = document.getElementById('fileMergeInputVisible');
-            if (visibleInput) visibleInput.focus();
-        }
-    }, 200);
+    // Close dropdown
+    const menu = document.getElementById('mobileImportMenu');
+    if (menu) menu.classList.remove('show');
 }
 
 function handleMergeFileSelect(event) {
@@ -771,6 +765,10 @@ function showExportTextModal() {
     switchToMobilePanel('editor');
     const toolbar = document.getElementById('mobileEditorToolbar');
     if (toolbar) toolbar.style.display = 'flex';
+    
+    // Close dropdown
+    const menu = document.getElementById('mobileExportMenu');
+    if (menu) menu.classList.remove('show');
 }
 
 // Global resilient click delegation for critical mobile actions
@@ -3954,23 +3952,11 @@ function setupMobileDropdowns() {
         mobileImportMenu.addEventListener('click', (e) => {
             e.stopPropagation();
         });
-        // Auto-close on any action
-        mobileImportMenu.querySelectorAll('.mobile-dropdown-item').forEach(btn => {
-            btn.addEventListener('click', () => {
-                mobileImportMenu.classList.remove('show');
-            });
-        });
     }
 
     if (mobileExportMenu) {
         mobileExportMenu.addEventListener('click', (e) => {
             e.stopPropagation();
-        });
-        // Auto-close on any action
-        mobileExportMenu.querySelectorAll('.mobile-dropdown-item').forEach(btn => {
-            btn.addEventListener('click', () => {
-                mobileExportMenu.classList.remove('show');
-            });
         });
     }
 }
