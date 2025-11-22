@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#faf7f2">
-    <meta name="description" content="A mobile-friendly lorebook editor for character AI applications">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SLEd">
     <title>Simple Lorebook Editor - SLEd</title>
     <link rel="icon" type="image/png" href="../Sledlogo.png">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="../Sledlogo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
@@ -46,10 +39,7 @@
             <div class="mobile-divider"></div>
             
             <!-- Right Side Actions -->
-                <div class="mobile-header-right">
-                    <button id="reloadAppBtn" class="btn btn-icon" title="Reload App" style="margin-right: 0.25rem;">
-                        <span class="material-symbols-outlined">refresh</span>
-                    </button>
+            <div class="mobile-header-right">
                 <div class="mobile-dropdown">
                     <button id="mobileImportBtn" class="btn btn-icon" title="Import">
                         <span class="material-symbols-outlined">download</span>
@@ -135,52 +125,29 @@
             </div>
         </div>
 
-        <!-- Fixed Control Bars -->
-        <div class="mobile-controls-container" height="50px">
-            <!-- Sidebar Controls (Zoom, Entry Count, Search) -->
-            <div class="mobile-sidebar-header" id="mobileSidebarHeader">
-                <div class="mobile-top-controls">
-                    <div class="mobile-zoom-controls">
-                        <button id="zoomOut" class="mobile-zoom-btn" title="Zoom Out">-</button>
-                        <span id="zoomLevel" class="mobile-zoom-level">Normal</span>
-                        <button id="zoomIn" class="mobile-zoom-btn" title="Zoom In">+</button>
-                    </div>
-                    <div class="mobile-entry-count">
-                        <span id="entryCount">0 entries</span>
-                    </div>
-                    <button id="mobileSearchToggle" class="btn btn-icon mobile-search-toggle" title="Search">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                </div>
-                <div id="mobileSearchContainer" class="mobile-search-container" style="display: none;">
-                    <input type="text" id="searchEntries" placeholder="Search entries..." class="mobile-search-input">
-                </div>
-            </div>
-
-            <!-- Editor Controls (Tabs, Save) -->
-            <div class="mobile-tabs-container" id="mobileTabsContainer">
-                <div id="tabBar" class="mobile-tab-bar">
-                    <!-- Tabs will appear here -->
-                </div>
-                <div class="mobile-view-controls">
-                    <button id="expandContentBtn" class="btn-icon" title="Expand Content Field" style="display: none;">
-                        <span class="material-symbols-outlined">open_in_full</span>
-                    </button>
-                    <button id="saveEntryBtn" class="btn-icon" title="Save entry">
-                        <span id="saveIcon" class="material-symbols-outlined">save</span>
-                    </button>
-                    <button id="clearSelection" class="btn-icon" title="Clear selection" style="display: none;">
-                            <span><span class="material-symbols-outlined">check_box</span> Clear</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <!-- Main Content - Swipeable Mobile Panels -->
         <div class="mobile-swipe-container">
             <!-- Entry List Panel (Left) -->
             <div class="mobile-panel mobile-panel-entries" id="entriesPanel">
                 <div class="mobile-sidebar">
+                    <div class="mobile-sidebar-header">
+                        <div class="mobile-top-controls">
+                            <div class="mobile-zoom-controls">
+                                <button id="zoomOut" class="mobile-zoom-btn" title="Zoom Out">-</button>
+                                <span id="zoomLevel" class="mobile-zoom-level">Normal</span>
+                                <button id="zoomIn" class="mobile-zoom-btn" title="Zoom In">+</button>
+                            </div>
+                            <div class="mobile-entry-count">
+                                <span id="entryCount">0 entries</span>
+                            </div>
+                            <button id="mobileSearchToggle" class="btn btn-icon mobile-search-toggle" title="Search">
+                                <span class="material-symbols-outlined">search</span>
+                            </button>
+                        </div>
+                        <div id="mobileSearchContainer" class="mobile-search-container" style="display: none;">
+                            <input type="text" id="searchEntries" placeholder="Search entries..." class="mobile-search-input">
+                        </div>
+                    </div>
                     <ul id="entryList" class="mobile-entry-list">
                         <!-- Entries will be populated here -->
                     </ul>
@@ -190,12 +157,23 @@
             <!-- Editor Panel (Right) -->
             <div class="mobile-panel mobile-panel-editor" id="editorPanel">
                 <div class="mobile-editor">
-                    <div id="editorContent" class="mobile-editor-content">
-                        <div class="mobile-editor-toolbar" id="mobileEditorToolbar" style="display:none;gap:0.5rem;margin:0.5rem 0;">
-                            <button id="backToListBtn" class="btn btn-icon" title="Back to List">
-                                <span class="material-symbols-outlined">list</span>
+                    <div class="mobile-tabs-container">
+                        <div id="tabBar" class="mobile-tab-bar">
+                            <!-- Tabs will appear here -->
+                        </div>
+                        <div class="mobile-view-controls">
+                            <button id="expandContentBtn" class="btn-icon" title="Expand Content Field" style="display: none;">
+                                <span class="material-symbols-outlined">open_in_full</span>
+                            </button>
+                            <button id="saveEntryBtn" class="btn-icon" title="Save entry">
+                                <span id="saveIcon" class="material-symbols-outlined">save</span>
+                            </button>
+                            <button id="clearSelection" class="btn-icon" title="Clear selection" style="display: none;">
+                                    <span><span class="material-symbols-outlined">check_box</span> Clear</span>
                             </button>
                         </div>
+                    </div>
+                    <div id="editorContent" class="mobile-editor-content">
                         <div class="mobile-empty-state">
                             <p>👈 Swipe right or select an entry to start editing</p>
                             <p>or</p>
@@ -210,39 +188,11 @@
     <!-- Mobile Menu Overlay -->
     <div id="mobileMenuOverlay" class="mobile-menu-overlay"></div>
 
-    <!-- Hidden (offscreen) file inputs for import; kept accessible for mobile browsers -->
-    <input type="file" id="fileInput" accept=".json" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;">
-    <input type="file" id="fileMergeInput" accept=".json" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;">
-
-    <!-- Import Modal -->
-    <div id="importModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><span class="material-symbols-outlined">file_open</span> Import Lorebook</h2>
-                <button id="closeImportModal" class="modal-close" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Select a lorebook JSON file to load.</p>
-                <input type="file" id="fileInputVisible" accept=".json" style="margin:0.75rem 0;">
-                <p style="font-size:0.75rem;color:var(--text-secondary);">If the file dialog does not appear automatically, use the chooser above.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Merge Import Modal -->
-    <div id="mergeImportModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><span class="material-symbols-outlined">merge</span> Import for Merging</h2>
-                <button id="closeMergeImportModal" class="modal-close" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Select a lorebook JSON file whose entries you want to stage for merging.</p>
-                <input type="file" id="fileMergeInputVisible" accept=".json" style="margin:0.75rem 0;">
-                <p style="font-size:0.75rem;color:var(--text-secondary);">Entries will appear in a staging tab; UIDs are reassigned when merged.</p>
-            </div>
-        </div>
-    </div>
+    <!-- Hidden file input for import -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+    
+    <!-- Hidden file input for merge import -->
+    <input type="file" id="fileMergeInput" accept=".json" style="display: none;">
 
     <!-- Help Modal -->
     <div id="helpModal" class="modal" style="display: none;">
@@ -360,35 +310,5 @@
     </div>
 
     <script src="script.js"></script>
-    
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then((registration) => {
-                        console.log('ServiceWorker registration successful:', registration.scope);
-                        
-                        // Check for updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // New service worker available, show update notification
-                                    if (confirm('New version available! Reload to update?')) {
-                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                        window.location.reload();
-                                    }
-                                }
-                            });
-                        });
-                    })
-                    .catch((err) => {
-                        console.log('ServiceWorker registration failed:', err);
-                    });
-            });
-        }
-    </script>
-
 </body>
 </html>

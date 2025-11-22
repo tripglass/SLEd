@@ -75,81 +75,10 @@ function loadFromLocalStorage() {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
-    // Manual reload button for service worker/app update
-    const reloadAppBtn = document.getElementById('reloadAppBtn');
-    if (reloadAppBtn) {
-        reloadAppBtn.addEventListener('click', () => {
-            window.location.reload(true);
-        });
-    }
-    try {
-        console.time('[SLEd] init');
-        loadFromLocalStorage();
-        initializeEventListeners();
-        setupKeyboardHandling();
-        
-        // Initialize control bars visibility
-        const sidebarHeader = document.getElementById('mobileSidebarHeader');
-        const tabsContainer = document.getElementById('mobileTabsContainer');
-        
-        // Show sidebar header by default, hide tabs container
-        if (sidebarHeader) {
-            sidebarHeader.style.opacity = '1';
-            sidebarHeader.style.visibility = 'visible';
-        }
-        if (tabsContainer) {
-            tabsContainer.style.opacity = '0';
-            tabsContainer.style.visibility = 'hidden';
-        }
-        console.timeEnd('[SLEd] init');
-        console.log('[SLEd] Initialization complete');
-        verifyMobileBindings();
-    } catch (err) {
-        console.error('[SLEd] Initialization error:', err);
-        // Retry once after a short delay in case of transient race/shadow issues
-        setTimeout(() => {
-            try {
-                console.warn('[SLEd] Retrying initialization...');
-                initializeEventListeners();
-                console.log('[SLEd] Retry initialization finished');
-                verifyMobileBindings();
-            } catch (retryErr) {
-                console.error('[SLEd] Retry failed:', retryErr);
-            }
-        }, 250);
-    }
+    loadFromLocalStorage();
+    initializeEventListeners();
+    setupKeyboardHandling();
 });
-
-function verifyMobileBindings() {
-    const ids = [
-        'entriesNavBtn','editorNavBtn','mobileImportBtn','mobileExportBtn',
-        'importBtn','importMergeBtn','exportBtn','exportTextBtn','newEntryBtn'
-    ];
-    const missing = [];
-    ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) {
-            missing.push(id + ':element');
-            return;
-        }
-        switch(id) {
-            case 'entriesNavBtn': el.onclick || el.addEventListener('click', () => switchToMobilePanel('entries')); break;
-            case 'editorNavBtn': el.onclick || el.addEventListener('click', () => switchToMobilePanel('editor')); break;
-            case 'mobileImportBtn': el.onclick || el.addEventListener('click', (e)=>{e.stopPropagation(); const m=document.getElementById('mobileImportMenu'); if(m){m.classList.toggle('show'); const ex=document.getElementById('mobileExportMenu'); if(ex) ex.classList.remove('show');}}); break;
-            case 'mobileExportBtn': el.onclick || el.addEventListener('click', (e)=>{e.stopPropagation(); const m=document.getElementById('mobileExportMenu'); if(m){m.classList.toggle('show'); const im=document.getElementById('mobileImportMenu'); if(im) im.classList.remove('show');}}); break;
-            case 'importBtn': el.onclick || el.addEventListener('click', importLorebook); break;
-            case 'importMergeBtn': el.onclick || el.addEventListener('click', importLorebookForMerge); break;
-            case 'exportBtn': el.onclick || el.addEventListener('click', exportLorebook); break;
-            case 'exportTextBtn': el.onclick || el.addEventListener('click', showExportTextModal); break;
-            case 'newEntryBtn': el.onclick || el.addEventListener('click', createNewEntry); break;
-        }
-    });
-    if (missing.length) {
-        console.warn('[SLEd] Missing elements during binding verification:', missing.join(', '));
-    } else {
-        console.log('[SLEd] Mobile bindings verified.');
-    }
-}
 
 // Keyboard Handling for Mobile
 function setupKeyboardHandling() {
@@ -297,21 +226,13 @@ function initializeEventListeners() {
     }
     
     const importBtn = document.getElementById('importBtn');
-    console.log('[Init] importBtn element:', importBtn);
-    if (importBtn) {
-        console.log('[Init] Binding click to importLorebook');
-        importBtn.addEventListener('click', importLorebook);
-    }
+    if (importBtn) importBtn.addEventListener('click', importLorebook);
     
     const importMergeBtn = document.getElementById('importMergeBtn');
     if (importMergeBtn) importMergeBtn.addEventListener('click', importLorebookForMerge);
     
     const exportBtn = document.getElementById('exportBtn');
-    console.log('[Init] exportBtn element:', exportBtn);
-    if (exportBtn) {
-        console.log('[Init] Binding click to exportLorebook');
-        exportBtn.addEventListener('click', exportLorebook);
-    }
+    if (exportBtn) exportBtn.addEventListener('click', exportLorebook);
     
     const exportTextBtn = document.getElementById('exportTextBtn');
     if (exportTextBtn) exportTextBtn.addEventListener('click', showExportTextModal);
@@ -343,8 +264,8 @@ function initializeEventListeners() {
     const expandContentBtn = document.getElementById('expandContentBtn');
     if (expandContentBtn) expandContentBtn.addEventListener('click', toggleExpandContent);
     
-    const clearSelectionBtn = document.getElementById('clearSelection');
-    if (clearSelectionBtn) clearSelectionBtn.addEventListener('click', clearEntrySelection);
+    const clearSelection = document.getElementById('clearSelection');
+    if (clearSelection) clearSelection.addEventListener('click', clearSelection);
     
     const lorebookName = document.getElementById('lorebookName');
     if (lorebookName) lorebookName.addEventListener('input', handleLorebookNameChange);
@@ -549,29 +470,6 @@ function initializeEventListeners() {
     document.getElementById('searchReplaceModal').addEventListener('click', (e) => {
         if (e.target.id === 'searchReplaceModal') closeSearchReplaceModal();
     });
-
-    // Import & Merge modal close handlers
-    const closeImportModal = document.getElementById('closeImportModal');
-    if (closeImportModal) closeImportModal.addEventListener('click', () => {
-        const importModal = document.getElementById('importModal');
-        if (importModal) importModal.style.display = 'none';
-    });
-    const closeMergeImportModal = document.getElementById('closeMergeImportModal');
-    if (closeMergeImportModal) closeMergeImportModal.addEventListener('click', () => {
-        const mergeModal = document.getElementById('mergeImportModal');
-        if (mergeModal) mergeModal.style.display = 'none';
-    });
-    // Click outside to close import/merge modals
-    const importModal = document.getElementById('importModal');
-    if (importModal) importModal.addEventListener('click', (e)=>{ if(e.target.id==='importModal') importModal.style.display='none'; });
-    const mergeImportModal = document.getElementById('mergeImportModal');
-    if (mergeImportModal) mergeImportModal.addEventListener('click', (e)=>{ if(e.target.id==='mergeImportModal') mergeImportModal.style.display='none'; });
-
-    // Visible file inputs wiring
-    const fileInputVisible = document.getElementById('fileInputVisible');
-    if (fileInputVisible) fileInputVisible.addEventListener('change', handleFileSelect);
-    const fileMergeInputVisible = document.getElementById('fileMergeInputVisible');
-    if (fileMergeInputVisible) fileMergeInputVisible.addEventListener('change', handleMergeFileSelect);
     
     // Load saved preferences
     loadPreferences();
@@ -587,20 +485,7 @@ function handleLorebookNameChange(event) {
 
 // Import Lorebook
 function importLorebook() {
-    console.log('[importLorebook] Function called');
-    const hidden = document.getElementById('fileInput');
-    console.log('[importLorebook] fileInput element:', hidden);
-    if (hidden) {
-        try { 
-            console.log('[importLorebook] Clicking file input');
-            hidden.click(); 
-        } catch(e) { 
-            console.error('[importLorebook] Click error:', e);
-        }
-    }
-    // Close dropdown
-    const menu = document.getElementById('mobileImportMenu');
-    if (menu) menu.classList.remove('show');
+    document.getElementById('fileInput').click();
 }
 
 function handleFileSelect(event) {
@@ -649,21 +534,15 @@ function handleFileSelect(event) {
     };
     reader.readAsText(file);
     
-    // Reset file inputs and close modal
+    // Reset file input
     event.target.value = '';
-    const visible = document.getElementById('fileInputVisible');
-    if (visible && visible !== event.target) visible.value = '';
-    const importModal = document.getElementById('importModal');
-    if (importModal) importModal.style.display = 'none';
 }
 
 // Export Lorebook
 function exportLorebook() {
-    console.log('[exportLorebook] Function called');
     // Save the lorebook name from input
     const nameInput = document.getElementById('lorebookName').value.trim();
     lorebook.name = nameInput || 'lorebook';
-    console.log('[exportLorebook] Exporting:', lorebook.name);
     
     // Create filename (sanitize and ensure .json extension)
     let filename = lorebook.name.replace(/[^a-z0-9_-]/gi, '_');
@@ -682,21 +561,11 @@ function exportLorebook() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
-    // Close dropdown
-    const menu = document.getElementById('mobileExportMenu');
-    if (menu) menu.classList.remove('show');
 }
 
 // Import Lorebook for Merging
 function importLorebookForMerge() {
-    const hidden = document.getElementById('fileMergeInput');
-    if (hidden) {
-        try { hidden.click(); } catch(e) { /* ignore */ }
-    }
-    // Close dropdown
-    const menu = document.getElementById('mobileImportMenu');
-    if (menu) menu.classList.remove('show');
+    document.getElementById('fileMergeInput').click();
 }
 
 function handleMergeFileSelect(event) {
@@ -733,12 +602,8 @@ function handleMergeFileSelect(event) {
     };
     reader.readAsText(file);
     
-    // Reset file inputs and close modal
+    // Reset file input
     event.target.value = '';
-    const visible = document.getElementById('fileMergeInputVisible');
-    if (visible && visible !== event.target) visible.value = '';
-    const mergeModal = document.getElementById('mergeImportModal');
-    if (mergeModal) mergeModal.style.display = 'none';
 }
 
 function showMergeModal() {
@@ -780,36 +645,7 @@ function showExportTextModal() {
     
     // Switch to editor panel on mobile
     switchToMobilePanel('editor');
-    const toolbar = document.getElementById('mobileEditorToolbar');
-    if (toolbar) toolbar.style.display = 'flex';
-    
-    // Close dropdown
-    const menu = document.getElementById('mobileExportMenu');
-    if (menu) menu.classList.remove('show');
 }
-
-// Global resilient click delegation for critical mobile actions
-document.addEventListener('click', function(e){
-    const target = e.target.closest('[id]');
-    if (!target) return;
-    switch(target.id){
-        case 'entriesNavBtn':
-            switchToMobilePanel('entries');
-            const toolbar = document.getElementById('mobileEditorToolbar');
-            if (toolbar) toolbar.style.display = 'none';
-            break;
-        case 'editorNavBtn':
-            switchToMobilePanel('editor');
-            const toolbar2 = document.getElementById('mobileEditorToolbar');
-            if (toolbar2) toolbar2.style.display = 'flex';
-            break;
-        case 'backToListBtn':
-            switchToMobilePanel('entries');
-            const toolbar3 = document.getElementById('mobileEditorToolbar');
-            if (toolbar3) toolbar3.style.display = 'none';
-            break;
-    }
-});
 
 function renderMergeEntryList() {
     const mergeList = document.getElementById('mergeEntryList');
@@ -1572,7 +1408,7 @@ function toggleEntrySelection(uid) {
     renderEntryList();
 }
 
-function clearEntrySelection() {
+function clearSelection() {
     selectedEntries = [];
     renderEntryList();
 }
@@ -1841,7 +1677,7 @@ function renderTabs() {
         
         // Handle README tab
         if (uid === 'readme-tab') {
-            tabName = '📄 README';
+            tabName = '� README';
             showUnsavedIndicator = false;
         } else if (uid === 'merge-staging-tab') {
             tabName = '🔀 Merge';
@@ -3547,8 +3383,8 @@ function generateMarkdownExport(options) {
     const getLogicText = (logicNum) => {
         const logicMap = {
             0: 'AND ANY',
-            1: 'NOT ANY',
-            2: 'NOT ALL',
+            1: 'NOT ALL',
+            2: 'NOT ANY',
             3: 'AND ALL'
         };
         return logicMap[logicNum] || 'AND ANY';
@@ -3931,10 +3767,8 @@ function setupMobileEventListeners() {
 
 // Setup mobile dropdown menus
 function setupMobileDropdowns() {
-    console.log('[setupMobileDropdowns] Starting dropdown setup');
     const mobileImportBtn = document.getElementById('mobileImportBtn');
     const mobileExportBtn = document.getElementById('mobileExportBtn');
-    console.log('[setupMobileDropdowns] Import btn:', mobileImportBtn, 'Export btn:', mobileExportBtn);
     const mobileImportMenu = document.getElementById('mobileImportMenu');
     const mobileExportMenu = document.getElementById('mobileExportMenu');
     
@@ -3963,14 +3797,12 @@ function setupMobileDropdowns() {
     // Prevent dropdown menu clicks from closing the dropdown
     if (mobileImportMenu) {
         mobileImportMenu.addEventListener('click', (e) => {
-            console.log('[mobileImportMenu] Click detected on:', e.target, 'ID:', e.target.id, 'Class:', e.target.className);
             e.stopPropagation();
         });
     }
-
+    
     if (mobileExportMenu) {
         mobileExportMenu.addEventListener('click', (e) => {
-            console.log('[mobileExportMenu] Click detected on:', e.target, 'ID:', e.target.id, 'Class:', e.target.className);
             e.stopPropagation();
         });
     }
@@ -3988,8 +3820,6 @@ function switchToMobilePanel(panel) {
     const editorPanel = document.getElementById('editorPanel');
     const entriesNavBtn = document.getElementById('entriesNavBtn');
     const editorNavBtn = document.getElementById('editorNavBtn');
-    const sidebarHeader = document.getElementById('mobileSidebarHeader');
-    const tabsContainer = document.getElementById('mobileTabsContainer');
     
     if (!entriesPanel || !editorPanel) return;
     
@@ -3998,16 +3828,6 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.add('show-editor');
         editorPanel.classList.add('show-editor');
         mobileCurrentPanel = 'editor';
-        
-        // Show tabs container, hide sidebar header
-        if (sidebarHeader) {
-            sidebarHeader.style.opacity = '0';
-            sidebarHeader.style.visibility = 'hidden';
-        }
-        if (tabsContainer) {
-            tabsContainer.style.opacity = '1';
-            tabsContainer.style.visibility = 'visible';
-        }
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {
@@ -4018,16 +3838,6 @@ function switchToMobilePanel(panel) {
         entriesPanel.classList.remove('show-editor');
         editorPanel.classList.remove('show-editor');
         mobileCurrentPanel = 'entries';
-        
-        // Show sidebar header, hide tabs container
-        if (sidebarHeader) {
-            sidebarHeader.style.opacity = '1';
-            sidebarHeader.style.visibility = 'visible';
-        }
-        if (tabsContainer) {
-            tabsContainer.style.opacity = '0';
-            tabsContainer.style.visibility = 'hidden';
-        }
         
         // Update navigation buttons
         if (entriesNavBtn && editorNavBtn) {

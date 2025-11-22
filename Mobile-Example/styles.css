@@ -105,10 +105,6 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
 }
 
 .app-container {
@@ -127,14 +123,6 @@ body {
     align-items: center;
     box-shadow: var(--shadow);
     transition: background-color 0.3s ease, border-color 0.3s ease;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 500; /* Above fixed toolbars */
-    height: 44px;
-    transform: translateZ(0); /* Force hardware acceleration */
-    will-change: transform;
 }
 
 .header-left {
@@ -1171,19 +1159,18 @@ body.dark-mode .btn-icon:hover {
     margin-bottom: 1.5rem;
 }
 
-.mobile-panel {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.25s cubic-bezier(.4,0,.2,1);
-    background: var(--bg-primary);
-    opacity: 1;
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
 }
+
+.form-label-small {
+    font-size: 0.875rem;
+}
+
+.form-input,
 .form-textarea {
     width: 100%;
     padding: 0.75rem;
@@ -1874,48 +1861,19 @@ body.dark-mode .btn-icon:hover {
 
 /* ===== MOBILE-ONLY STYLES ===== */
 /* Mobile elements are now the default */
-
-/* Fixed Controls Container - Second fixed frame */
-.mobile-controls-container {
-    position: fixed;
-    top: 44px; /* Below header */
-    left: 0;
-    right: 0;
-    z-index: 300;
-    height: 52px;
-    background: var(--bg-primary);
-    pointer-events: none; /* Allow clicks through to content below */
-    transform: translateZ(0); /* Force hardware acceleration */
-    will-change: transform;
-}
-
-.mobile-controls-container > * {
-    pointer-events: auto; /* Re-enable clicks on actual controls */
-}
-
 .mobile-swipe-container {
-    position: fixed;
-    top: 96px; /* Below header (44px) + controls (52px) */
-    left: 0;
-    right: 0;
-    bottom: 0;
+    display: flex;
+    height: calc(100vh - 96px); /* Account for header only (no nav indicators) */
     overflow: hidden;
-    background: var(--bg-primary);
-    overscroll-behavior: contain;
-    touch-action: pan-y;
+    position: relative;
 }
 
 .mobile-panel {
-    width: 100%;
+    min-width: 100vw;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     transition: transform 0.3s ease;
-    background: var(--bg-primary);
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .mobile-panel-entries {
@@ -1951,14 +1909,12 @@ body.dark-mode .btn-icon:hover {
     border-radius: 0.5rem;
     box-shadow: var(--shadow-lg);
     min-width: 200px;
-    z-index: 1500;
+    z-index: 1000;
     margin-top: 0.25rem;
-    pointer-events: auto;
 }
 
 .mobile-dropdown-menu.show {
     display: block !important;
-    pointer-events: auto;
 }
 
 .mobile-dropdown-item {
@@ -2202,19 +2158,17 @@ body.dark-mode .menu-logo-dark {
 
 /* ===== MOBILE HEADER ===== */
 .app-header {
-    padding: 0.25rem 0.125rem;
+    padding: 0.375rem 0.25rem;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     background: var(--sidebar-bg);
     border-bottom: 1px solid var(--border-color);
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    z-index: 400;
-    gap: 0.125rem;
-    min-height: 44px;
+    z-index: 100;
+    gap: 0.25rem;
+    min-height: 48px;
     flex-wrap: nowrap;
 }
 
@@ -2257,16 +2211,16 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-menu-toggle {
-    width: 32px;
-    height: 32px;
-    padding: 0.125rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.25rem;
     flex-shrink: 0;
 }
 
 .mobile-nav-btn {
-    width: 32px;
-    height: 32px;
-    padding: 0.125rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.25rem;
     flex-shrink: 0;
     background-color: var(--secondary-color);
     color: white;
@@ -2282,16 +2236,16 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-header-right .btn-icon {
-    width: 32px;
-    height: 32px;
-    padding: 0.125rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.25rem;
     flex-shrink: 0;
 }
 
 #newEntryBtn {
-    width: 32px;
-    height: 32px;
-    padding: 0.125rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.25rem;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -2306,6 +2260,24 @@ body.dark-mode .menu-logo-dark {
 
 .mobile-dropdown {
     position: relative;
+}
+
+.mobile-dropdown-menu {
+    display: none !important;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    min-width: 180px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.mobile-dropdown-menu.show {
+    display: block !important;
 }
 
 .mobile-dropdown-item {
@@ -2419,28 +2391,18 @@ body.dark-mode .menu-logo-dark {
 
 /* ===== MOBILE SWIPE CONTAINER ===== */
 .mobile-swipe-container {
-    position: fixed;
-    top: 96px; /* Below header (44px) + controls (52px) */
-    left: 0;
-    right: 0;
-    bottom: 0;
+    display: flex;
+    height: calc(100vh - 96px); /* Account for header only (no nav indicators) */
     overflow: hidden;
-    background: var(--bg-primary);
-    overscroll-behavior: contain;
-    touch-action: pan-y;
+    position: relative;
 }
 
 .mobile-panel {
-    width: 100%;
+    min-width: 100vw;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     transition: transform 0.3s ease;
-    background: var(--bg-primary);
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .mobile-panel-entries {
@@ -2471,35 +2433,37 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--sidebar-bg);
+    /* Allow scrolling of entire sidebar so header can stick */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     position: relative;
 }
 
 .mobile-sidebar-header {
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--card-bg);
     flex-shrink: 0;
     z-index: 20;
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
-    height: 52px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mobile-top-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 .mobile-search-toggle {
-    width: 32px;
-    height: 32px;
-    padding: 0.125rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.25rem;
     background-color: var(--secondary-color);
     color: white;
     border: none;
@@ -2507,7 +2471,7 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-search-container {
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
 }
 
 .mobile-search-input {
@@ -2528,13 +2492,13 @@ body.dark-mode .menu-logo-dark {
 }
 
 .mobile-zoom-btn {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border: 1px solid var(--border-color);
     background: var(--card-bg);
     color: var(--text-primary);
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
+    border-radius: 0.375rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
@@ -2565,10 +2529,8 @@ body.dark-mode .menu-logo-dark {
 .mobile-entry-list {
     list-style: none;
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding: 0.5rem;
+    /* Scroll handled by parent .mobile-sidebar for sticky header */
+    overflow: visible;
 }
 
 /* ===== MOBILE EDITOR ===== */
@@ -2577,29 +2539,28 @@ body.dark-mode .menu-logo-dark {
     display: flex;
     flex-direction: column;
     background: var(--editor-bg);
+    /* Make the whole editor the scroll container for sticky tabs */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     position: relative;
 }
 
 .mobile-tabs-container {
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--sidebar-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: absolute;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
     z-index: 20;
     flex-shrink: 0;
-    height: 52px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-
-/* Compensating top padding for scrollable content areas so content not hidden under fixed bars */
-/* Padding is now applied dynamically via JavaScript to the scrollable containers */
 
 .mobile-tab-bar {
     display: flex;
@@ -2668,9 +2629,9 @@ body.dark-mode .menu-logo-dark {
 }
 
 #saveEntryBtn {
-    width: 32px;
-    height: 32px;
-    padding: 0.125rem;
+    width: 36px;
+    height: 36px;
+    padding: 0.25rem;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -2696,35 +2657,10 @@ body.dark-mode .menu-logo-dark {
 .mobile-editor-content {
     flex: 1;
     padding: 1rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    /* Scrolling now handled by .mobile-editor for sticky tabs */
+    overflow: visible;
     scroll-behavior: smooth;
     min-height: 0;
-}
-
-/* Back to list toolbar */
-#mobileEditorToolbar {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-#backToListBtn {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    width: 40px;
-    height: 40px;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#backToListBtn:hover {
-    background: var(--hover-bg);
-    border-color: var(--primary-color);
 }
 
 .mobile-empty-state {
