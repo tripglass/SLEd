@@ -297,13 +297,21 @@ function initializeEventListeners() {
     }
     
     const importBtn = document.getElementById('importBtn');
-    if (importBtn) importBtn.addEventListener('click', importLorebook);
+    console.log('[Init] importBtn element:', importBtn);
+    if (importBtn) {
+        console.log('[Init] Binding click to importLorebook');
+        importBtn.addEventListener('click', importLorebook);
+    }
     
     const importMergeBtn = document.getElementById('importMergeBtn');
     if (importMergeBtn) importMergeBtn.addEventListener('click', importLorebookForMerge);
     
     const exportBtn = document.getElementById('exportBtn');
-    if (exportBtn) exportBtn.addEventListener('click', exportLorebook);
+    console.log('[Init] exportBtn element:', exportBtn);
+    if (exportBtn) {
+        console.log('[Init] Binding click to exportLorebook');
+        exportBtn.addEventListener('click', exportLorebook);
+    }
     
     const exportTextBtn = document.getElementById('exportTextBtn');
     if (exportTextBtn) exportTextBtn.addEventListener('click', showExportTextModal);
@@ -579,9 +587,16 @@ function handleLorebookNameChange(event) {
 
 // Import Lorebook
 function importLorebook() {
+    console.log('[importLorebook] Function called');
     const hidden = document.getElementById('fileInput');
+    console.log('[importLorebook] fileInput element:', hidden);
     if (hidden) {
-        try { hidden.click(); } catch(e) { /* ignore */ }
+        try { 
+            console.log('[importLorebook] Clicking file input');
+            hidden.click(); 
+        } catch(e) { 
+            console.error('[importLorebook] Click error:', e);
+        }
     }
     // Close dropdown
     const menu = document.getElementById('mobileImportMenu');
@@ -644,9 +659,11 @@ function handleFileSelect(event) {
 
 // Export Lorebook
 function exportLorebook() {
+    console.log('[exportLorebook] Function called');
     // Save the lorebook name from input
     const nameInput = document.getElementById('lorebookName').value.trim();
     lorebook.name = nameInput || 'lorebook';
+    console.log('[exportLorebook] Exporting:', lorebook.name);
     
     // Create filename (sanitize and ensure .json extension)
     let filename = lorebook.name.replace(/[^a-z0-9_-]/gi, '_');
@@ -3920,8 +3937,10 @@ function setupMobileEventListeners() {
 
 // Setup mobile dropdown menus
 function setupMobileDropdowns() {
+    console.log('[setupMobileDropdowns] Starting dropdown setup');
     const mobileImportBtn = document.getElementById('mobileImportBtn');
     const mobileExportBtn = document.getElementById('mobileExportBtn');
+    console.log('[setupMobileDropdowns] Import btn:', mobileImportBtn, 'Export btn:', mobileExportBtn);
     const mobileImportMenu = document.getElementById('mobileImportMenu');
     const mobileExportMenu = document.getElementById('mobileExportMenu');
     
@@ -3950,12 +3969,14 @@ function setupMobileDropdowns() {
     // Prevent dropdown menu clicks from closing the dropdown
     if (mobileImportMenu) {
         mobileImportMenu.addEventListener('click', (e) => {
+            console.log('[mobileImportMenu] Click detected on:', e.target, 'ID:', e.target.id, 'Class:', e.target.className);
             e.stopPropagation();
         });
     }
 
     if (mobileExportMenu) {
         mobileExportMenu.addEventListener('click', (e) => {
+            console.log('[mobileExportMenu] Click detected on:', e.target, 'ID:', e.target.id, 'Class:', e.target.className);
             e.stopPropagation();
         });
     }
