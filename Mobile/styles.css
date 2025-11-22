@@ -1951,12 +1951,14 @@ body.dark-mode .btn-icon:hover {
     border-radius: 0.5rem;
     box-shadow: var(--shadow-lg);
     min-width: 200px;
-    z-index: 1000;
+    z-index: 1500;
     margin-top: 0.25rem;
+    pointer-events: auto;
 }
 
 .mobile-dropdown-menu.show {
     display: block !important;
+    pointer-events: auto;
 }
 
 .mobile-dropdown-item {
@@ -2304,24 +2306,6 @@ body.dark-mode .menu-logo-dark {
 
 .mobile-dropdown {
     position: relative;
-}
-
-.mobile-dropdown-menu {
-    display: none !important;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    box-shadow: var(--shadow-lg);
-    min-width: 180px;
-    z-index: 1000;
-    overflow: hidden;
-}
-
-.mobile-dropdown-menu.show {
-    display: block !important;
 }
 
 .mobile-dropdown-item {
