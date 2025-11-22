@@ -769,7 +769,32 @@ function showExportTextModal() {
     
     // Switch to editor panel on mobile
     switchToMobilePanel('editor');
+    const toolbar = document.getElementById('mobileEditorToolbar');
+    if (toolbar) toolbar.style.display = 'flex';
 }
+
+// Global resilient click delegation for critical mobile actions
+document.addEventListener('click', function(e){
+    const target = e.target.closest('[id]');
+    if (!target) return;
+    switch(target.id){
+        case 'entriesNavBtn':
+            switchToMobilePanel('entries');
+            const toolbar = document.getElementById('mobileEditorToolbar');
+            if (toolbar) toolbar.style.display = 'none';
+            break;
+        case 'editorNavBtn':
+            switchToMobilePanel('editor');
+            const toolbar2 = document.getElementById('mobileEditorToolbar');
+            if (toolbar2) toolbar2.style.display = 'flex';
+            break;
+        case 'backToListBtn':
+            switchToMobilePanel('entries');
+            const toolbar3 = document.getElementById('mobileEditorToolbar');
+            if (toolbar3) toolbar3.style.display = 'none';
+            break;
+    }
+});
 
 function renderMergeEntryList() {
     const mergeList = document.getElementById('mergeEntryList');
